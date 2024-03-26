@@ -1,0 +1,16 @@
+
+{
+  "@@locale": "es",
+  
+  "appTitle": "Solucionador de Cubo de Rubik",
+  
+  "settingsTitle": "Configuración",
+  "settingsTheme": "Tema",
+  "settingsSystemTheme": "Tema del sistema",
+  "settingsLightTheme": "Tema claro",
+  "settingsDarkTheme": "Tema oscuro",
+  "settingsLanguage": "Idioma",
+  "settingsPortuguese": "Portugués",
+  "settingsEnglish": "Inglés",
+  "settingsSpanish": "Español"
+}

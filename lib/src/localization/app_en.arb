@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Rubik's Cube Solver",
+  
+  "settingsTitle": "Settings",
+  "settingsTheme": "Theme",
+  "settingsSystemTheme": "System Theme",
+  "settingsLightTheme": "Light Theme",
+  "settingsDarkTheme": "Dark Theme",
+  "settingsLanguage": "Language",
+  "settingsPortuguese": "Portuguese",
+  "settingsEnglish": "English",
+  "settingsSpanish": "Spanish"
+}

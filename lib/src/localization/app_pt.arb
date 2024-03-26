@@ -1,0 +1,15 @@
+{
+  "@@locale": "pt",
+
+  "appTitle": "Solver de Cubo Mágico",
+  
+  "settingsTitle": "Configurações",
+  "settingsTheme": "Tema",
+  "settingsSystemTheme": "Tema do sistema",
+  "settingsLightTheme": "Tema claro",
+  "settingsDarkTheme": "Tema escuro",
+  "settingsLanguage": "Linguagem",
+  "settingsPortuguese": "Português",
+  "settingsEnglish": "Inglês",
+  "settingsSpanish": "Espanhol"
+}
