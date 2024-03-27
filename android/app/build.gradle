@@ -22,9 +22,19 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
+if (flutterMinSdkVersion == null) {
+    flutterMinSdkVersion = flutter.minSdkVersion
+}
+
+def flutterCompileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion')
+if (flutterCompileSdkVersion == null) {
+    flutterCompileSdkVersion = flutter.compileSdkVersion
+}
+
 android {
     namespace "com.example.rubiks_cube_solver"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion flutterCompileSdkVersion.toInteger()
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,7 +55,7 @@ android {
         applicationId "com.example.rubiks_cube_solver"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion flutterMinSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
