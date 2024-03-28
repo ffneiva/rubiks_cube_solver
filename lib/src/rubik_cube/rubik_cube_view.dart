@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
+import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
-import 'package:sensors_plus/sensors_plus.dart';
 import '../settings/settings_view.dart';
 
 class RubikCubeView extends StatefulWidget {
-  const RubikCubeView({Key? key}) : super(key: key);
+  final SettingsController settingsController;
+  final RubikCubeController rubikCubeController;
+
+  const RubikCubeView({
+    Key? key,
+    required this.settingsController,
+    required this.rubikCubeController,
+  }) : super(key: key);
 
   static const routeName = '/';
 
@@ -15,38 +23,7 @@ class RubikCubeView extends StatefulWidget {
   _RubikCubeView createState() => _RubikCubeView();
 }
 
-class _RubikCubeView extends State<RubikCubeView>
-    with SingleTickerProviderStateMixin {
-  late Scene _scene;
-  Object? _cube;
-
-  @override
-  void initState() {
-    super.initState();
-    gyroscopeEventStream().listen((GyroscopeEvent event) {
-      setState(() {
-        if (_cube != null) {
-          _cube!.rotation.x += event.y;
-          _cube!.rotation.y -= event.x;
-          _cube!.rotation.z += event.z;
-          _cube!.updateTransform();
-          _scene.update();
-        }
-      });
-    });
-  }
-
-  void _onSceneCreated(Scene scene) {
-    _scene = scene;
-    scene.camera.position.z = 20;
-    scene.camera.target.y = 2;
-    _cube = Object(
-        scale: Vector3(10.0, 10.0, 10.0),
-        backfaceCulling: false,
-        fileName: 'assets/cube/Robik.obj');
-    scene.world.add(_cube!);
-  }
-
+class _RubikCubeView extends State<RubikCubeView> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;
@@ -61,7 +38,36 @@ class _RubikCubeView extends State<RubikCubeView>
           },
         ),
       ],
-      body: Center(child: Cube(onSceneCreated: _onSceneCreated)),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: RubikCubeProjection(
+              settingsController: widget.settingsController,
+              rubikCubeController: widget.rubikCubeController,
+            ),
+          ),
+          GestureDetector(
+            onTap: () =>
+                widget.rubikCubeController.solve(widget.settingsController),
+            child: Container(
+              height: 80,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(16),
+              color: Colors.teal,
+              child: Text(
+                locale.solve,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

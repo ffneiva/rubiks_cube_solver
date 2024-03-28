@@ -1,16 +1,40 @@
-
 {
   "@@locale": "es",
+
+  "appTitle": "Solucionador de Cubo Mágico",
   
-  "appTitle": "Solucionador de Cubo de Rubik",
-  
-  "settingsTitle": "Configuración",
+  "settingsTitle": "Ajustes",
+
+  "confirmButton": "Confirmar",
+  "backButton": "Volver",
+  "solve": "Resolver",
+
+  "generalSettings": "Configuración General",
+  "cubeSettings": "Configuración del Cubo",
+
   "settingsTheme": "Tema",
   "settingsSystemTheme": "Tema del sistema",
   "settingsLightTheme": "Tema claro",
   "settingsDarkTheme": "Tema oscuro",
+
   "settingsLanguage": "Idioma",
   "settingsPortuguese": "Portugués",
   "settingsEnglish": "Inglés",
-  "settingsSpanish": "Español"
+  "settingsSpanish": "Español",
+
+  "settingsPickColor": "Selecciona un color",
+  "settingsUpColor": "Color superior",
+  "settingsLeftColor": "Color izquierdo",
+  "settingsFrontColor": "Color de frente",
+  "settingsRightColor": "Color derecho",
+  "settingsBackColor": "Color de atrás",
+  "settingsDownColor": "Color inferior",
+
+  "projection": "Proyección",
+  "projectionUp": "Proyección del lado superior",
+  "projectionLeft": "Proyección del lado izquierdo",
+  "projectionFront": "Proyección del lado frontal",
+  "projectionRight": "Proyección del lado derecho",
+  "projectionBack": "Proyección del lado trasero",
+  "projectionDown": "Proyección del lado inferior"
 }

@@ -1,15 +1,40 @@
 {
   "@@locale": "en",
-  
-  "appTitle": "Rubik's Cube Solver",
+
+  "appTitle": "Rubik Cube Solver",
   
   "settingsTitle": "Settings",
+
+  "confirmButton": "Confirm",
+  "backButton": "Back",
+  "solve": "Solve",
+
+  "generalSettings": "General Settings",
+  "cubeSettings": "Cube Settings",  
+
   "settingsTheme": "Theme",
   "settingsSystemTheme": "System Theme",
   "settingsLightTheme": "Light Theme",
   "settingsDarkTheme": "Dark Theme",
+
   "settingsLanguage": "Language",
   "settingsPortuguese": "Portuguese",
   "settingsEnglish": "English",
-  "settingsSpanish": "Spanish"
+  "settingsSpanish": "Spanish",
+
+  "settingsPickColor": "Pick a color",
+  "settingsUpColor": "Top color",
+  "settingsLeftColor": "Left color",
+  "settingsFrontColor": "Front color",
+  "settingsRightColor": "Right color",
+  "settingsBackColor": "Back color",
+  "settingsDownColor": "Bottom color",
+  
+  "projection": "Projection",
+  "projectionUp": "Top side projection",
+  "projectionLeft": "Left side projection",
+  "projectionFront": "Front side projection",
+  "projectionRight": "Right side projection",
+  "projectionBack": "Back side projection",
+  "projectionDown": "Bottom side projection"
 }

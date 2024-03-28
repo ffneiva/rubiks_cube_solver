@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'rubik_cube/rubik_cube_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
@@ -9,9 +10,11 @@ class RubikApp extends StatelessWidget {
   const RubikApp({
     super.key,
     required this.settingsController,
+    required this.rubikCubeController,
   });
 
   final SettingsController settingsController;
+  final RubikCubeController rubikCubeController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,9 @@ class RubikApp extends StatelessWidget {
           locale: Locale(settingsController.language),
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-          theme: ThemeData(),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.grey[200],
+          ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
@@ -46,7 +51,10 @@ class RubikApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case RubikCubeView.routeName:
                   default:
-                    return const RubikCubeView();
+                    return RubikCubeView(
+                      settingsController: settingsController,
+                      rubikCubeController: rubikCubeController,
+                    );
                 }
               },
             );
