@@ -7,7 +7,9 @@
 
   "confirmButton": "Confirmar",
   "backButton": "Voltar",
+  "closeButton": "Fechar",
   "solve": "Resolver",
+  "error": "Erro",
   
   "generalSettings": "Configurações gerais",
   "cubeSettings": "Configurações do cubo",
@@ -21,6 +23,7 @@
   "settingsPortuguese": "Português",
   "settingsEnglish": "Inglês",
   "settingsSpanish": "Espanhol",
+  "settingsFrench": "Francês",
 
   "settingsPickColor": "Selecione uma cor",
   "settingsUpColor": "Cor de cima",
@@ -36,5 +39,12 @@
   "projectionFront": "Projeção do lado da frente",
   "projectionRight": "Projeção do lado direito",
   "projectionBack": "Projeção do lado de trás",
-  "projectionDown": "Projeção do lado debaixo"
+  "projectionDown": "Projeção do lado debaixo",
+  
+  "messageNotFilled": "Não preencheu todos os adesivos",
+  "messageInvalidFilling": "Preenchimento inválido, altere as cores",
+  "messageNotFindSolution": "Não foi possível encontrar uma solução",
+  "messageCubeSolved": "O cubo já está resolvido",
+  "messageUnexpectedError": "Ocorreu um erro inesperado",
+  "messageSolve": "Solução de {moves} movimentos encontrada em {time} segundos"
 }

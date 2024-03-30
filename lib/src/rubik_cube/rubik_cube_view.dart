@@ -48,8 +48,7 @@ class _RubikCubeView extends State<RubikCubeView> {
             ),
           ),
           GestureDetector(
-            onTap: () =>
-                widget.rubikCubeController.solve(widget.settingsController),
+            onTap: () => _solve(locale),
             child: Container(
               height: 80,
               width: double.infinity,
@@ -68,6 +67,75 @@ class _RubikCubeView extends State<RubikCubeView> {
           ),
         ],
       ),
+    );
+  }
+
+  void _solve(AppLocalizations locale) async {
+    Map<String, String> message = await widget.rubikCubeController.solve(
+      widget.settingsController,
+      locale,
+    );
+    if (message['error'] != null) {
+      _errorMessage(locale, message['error']!);
+    }
+    if (message['solve'] != null) {
+      _solveMessage(locale, message);
+    }
+  }
+
+  void _errorMessage(AppLocalizations locale, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(children: [
+            const Icon(Icons.error_outline),
+            const SizedBox(width: 10),
+            Text(
+              locale.error,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ]),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                locale.closeButton,
+                style: const TextStyle(color: Colors.teal),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _solveMessage(AppLocalizations locale, Map<String, String> message) {
+    String title = locale.messageSolve(message['moves']!, message['time']!);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            message['solve']!,
+            style: const TextStyle(fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                locale.closeButton,
+                style: const TextStyle(color: Colors.teal),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -88,38 +88,16 @@ class SettingsView extends StatelessWidget {
             DropdownButton(
               value: controller.language,
               isExpanded: true,
-              onChanged: controller.updateLanguageMode,
+              onChanged: (l) => controller.updateLanguageMode(l),
               items: [
-                DropdownMenuItem(
-                  value: 'pt',
-                  child: Row(
-                    children: [
-                      Flag.fromCode(FlagsCode.BR, height: 16, width: 24),
-                      const SizedBox(width: 8),
-                      Text(locale.settingsPortuguese),
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'en',
-                  child: Row(
-                    children: [
-                      Flag.fromCode(FlagsCode.US, height: 16, width: 24),
-                      const SizedBox(width: 8),
-                      Text(locale.settingsEnglish),
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'es',
-                  child: Row(
-                    children: [
-                      Flag.fromCode(FlagsCode.ES, height: 16, width: 24),
-                      const SizedBox(width: 8),
-                      Text(locale.settingsSpanish),
-                    ],
-                  ),
-                ),
+                _dropdownMenuItemLocation(
+                    'pt', FlagsCode.BR, locale.settingsPortuguese),
+                _dropdownMenuItemLocation(
+                    'en', FlagsCode.US, locale.settingsEnglish),
+                _dropdownMenuItemLocation(
+                    'es', FlagsCode.ES, locale.settingsSpanish),
+                _dropdownMenuItemLocation(
+                    'fr', FlagsCode.FR, locale.settingsFrench),
               ],
             ),
           ),
@@ -194,6 +172,20 @@ class SettingsView extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.5 - 16,
             child: widget,
           ),
+        ],
+      ),
+    );
+  }
+
+  DropdownMenuItem _dropdownMenuItemLocation(
+      String value, FlagsCode flag, String description) {
+    return DropdownMenuItem(
+      value: value,
+      child: Row(
+        children: [
+          Flag.fromCode(flag, height: 16, width: 24),
+          const SizedBox(width: 8),
+          Text(description),
         ],
       ),
     );

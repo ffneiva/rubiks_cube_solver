@@ -1,0 +1,50 @@
+{
+  "@@locale": "fr",
+
+  "appTitle": "Solveur de Rubik's Cube",
+  
+  "settingsTitle": "Paramètres",
+
+  "confirmButton": "Confirmer",
+  "backButton": "Retour",
+  "closeButton": "Fermer",
+  "solve": "Résoudre",
+  "error": "Erreur",
+  
+  "generalSettings": "Paramètres généraux",
+  "cubeSettings": "Paramètres du cube",
+
+  "settingsTheme": "Thème",
+  "settingsSystemTheme": "Thème du système",
+  "settingsLightTheme": "Thème clair",
+  "settingsDarkTheme": "Thème sombre",
+
+  "settingsLanguage": "Langue",
+  "settingsPortuguese": "Portugais",
+  "settingsEnglish": "Anglais",
+  "settingsSpanish": "Espagnol",
+  "settingsFrench": "Français",
+
+  "settingsPickColor": "Choisissez une couleur",
+  "settingsUpColor": "Couleur du dessus",
+  "settingsLeftColor": "Couleur de gauche",
+  "settingsFrontColor": "Couleur de devant",
+  "settingsRightColor": "Couleur de droite",
+  "settingsBackColor": "Couleur de derrière",
+  "settingsDownColor": "Couleur de dessous",
+
+  "projection": "Projection",
+  "projectionUp": "Projection du haut",
+  "projectionLeft": "Projection de gauche",
+  "projectionFront": "Projection de devant",
+  "projectionRight": "Projection de droite",
+  "projectionBack": "Projection de derrière",
+  "projectionDown": "Projection du bas",
+  
+  "messageNotFilled": "Toutes les stickers n'ont pas été remplis",
+  "messageInvalidFilling": "Remplissage invalide, veuillez modifier les couleurs",
+  "messageNotFindSolution": "Impossible de trouver une solution",
+  "messageCubeSolved": "Le cube est déjà résolu",
+  "messageUnexpectedError": "Une erreur inattendue s'est produite",
+  "messageSolve": "Solution trouvée en {moves} mouvements en {time} secondes"
+}

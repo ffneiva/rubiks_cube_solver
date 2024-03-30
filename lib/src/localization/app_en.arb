@@ -7,10 +7,12 @@
 
   "confirmButton": "Confirm",
   "backButton": "Back",
+  "closeButton": "Close",
   "solve": "Solve",
+  "error": "Error",
 
   "generalSettings": "General Settings",
-  "cubeSettings": "Cube Settings",  
+  "cubeSettings": "Cube Settings",
 
   "settingsTheme": "Theme",
   "settingsSystemTheme": "System Theme",
@@ -21,6 +23,7 @@
   "settingsPortuguese": "Portuguese",
   "settingsEnglish": "English",
   "settingsSpanish": "Spanish",
+  "settingsFrench": "French",
 
   "settingsPickColor": "Pick a color",
   "settingsUpColor": "Top color",
@@ -29,12 +32,19 @@
   "settingsRightColor": "Right color",
   "settingsBackColor": "Back color",
   "settingsDownColor": "Bottom color",
-  
+
   "projection": "Projection",
   "projectionUp": "Top side projection",
   "projectionLeft": "Left side projection",
   "projectionFront": "Front side projection",
   "projectionRight": "Right side projection",
   "projectionBack": "Back side projection",
-  "projectionDown": "Bottom side projection"
+  "projectionDown": "Bottom side projection",
+
+  "messageNotFilled": "Did not fill all stickers",
+  "messageInvalidFilling": "Invalid filling, change the colors",
+  "messageNotFindSolution": "Could not find a solution",
+  "messageCubeSolved": "The cube is already solved",
+  "messageUnexpectedError": "An unexpected error occurred",
+  "messageSolve": "Solution of {moves} moves found in {time} seconds"
 }

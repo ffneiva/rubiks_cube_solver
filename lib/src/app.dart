@@ -33,6 +33,7 @@ class RubikApp extends StatelessWidget {
             Locale('pt', 'BR'),
             Locale('en', ''),
             Locale('es', ''),
+            Locale('fr', ''),
           ],
           locale: Locale(settingsController.language),
           onGenerateTitle: (BuildContext context) =>

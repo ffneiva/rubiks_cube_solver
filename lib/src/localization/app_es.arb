@@ -6,11 +6,13 @@
   "settingsTitle": "Ajustes",
 
   "confirmButton": "Confirmar",
-  "backButton": "Volver",
+  "backButton": "Atrás",
+  "closeButton": "Cerrar",
   "solve": "Resolver",
-
-  "generalSettings": "Configuración General",
-  "cubeSettings": "Configuración del Cubo",
+  "error": "Error",
+  
+  "generalSettings": "Ajustes generales",
+  "cubeSettings": "Ajustes del cubo",
 
   "settingsTheme": "Tema",
   "settingsSystemTheme": "Tema del sistema",
@@ -21,13 +23,14 @@
   "settingsPortuguese": "Portugués",
   "settingsEnglish": "Inglés",
   "settingsSpanish": "Español",
+  "settingsFrench": "Francés",
 
-  "settingsPickColor": "Selecciona un color",
+  "settingsPickColor": "Seleccionar un color",
   "settingsUpColor": "Color superior",
   "settingsLeftColor": "Color izquierdo",
-  "settingsFrontColor": "Color de frente",
+  "settingsFrontColor": "Color frontal",
   "settingsRightColor": "Color derecho",
-  "settingsBackColor": "Color de atrás",
+  "settingsBackColor": "Color trasero",
   "settingsDownColor": "Color inferior",
 
   "projection": "Proyección",
@@ -36,5 +39,12 @@
   "projectionFront": "Proyección del lado frontal",
   "projectionRight": "Proyección del lado derecho",
   "projectionBack": "Proyección del lado trasero",
-  "projectionDown": "Proyección del lado inferior"
+  "projectionDown": "Proyección del lado inferior",
+  
+  "messageNotFilled": "No se llenaron todas las pegatinas",
+  "messageInvalidFilling": "Relleno inválido, cambie los colores",
+  "messageNotFindSolution": "No se pudo encontrar una solución",
+  "messageCubeSolved": "El cubo ya está resuelto",
+  "messageUnexpectedError": "Se produjo un error inesperado",
+  "messageSolve": "Solución de {moves} movimientos encontrada en {time} segundos"
 }
