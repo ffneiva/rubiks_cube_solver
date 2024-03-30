@@ -10,6 +10,10 @@
   "closeButton": "Close",
   "solve": "Solve",
   "error": "Error",
+  
+  "rubikPage": "Rubik's Cube",
+  "settingsPage": "Settings",
+  "historicPage": "History",
 
   "generalSettings": "General Settings",
   "cubeSettings": "Cube Settings",
@@ -40,6 +44,8 @@
   "projectionRight": "Right side projection",
   "projectionBack": "Back side projection",
   "projectionDown": "Bottom side projection",
+  
+  "rubikCubeClearColors": "Clear colors",
 
   "messageNotFilled": "Did not fill all stickers",
   "messageInvalidFilling": "Invalid filling, change the colors",

@@ -3,16 +3,28 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
+import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
-import 'settings_controller.dart';
 
-class SettingsView extends StatelessWidget {
-  const SettingsView({super.key, required this.controller});
+class SettingsView extends StatefulWidget {
+  final SettingsController settingsController;
+  final RubikCubeController rubikCubeController;
+
+  const SettingsView({
+    Key? key,
+    required this.settingsController,
+    required this.rubikCubeController,
+  }) : super(key: key);
 
   static const routeName = '/settings';
 
-  final SettingsController controller;
+  @override
+  // ignore: library_private_types_in_public_api
+  _SettingsView createState() => _SettingsView();
+}
 
+class _SettingsView extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;
@@ -27,7 +39,7 @@ class SettingsView extends StatelessWidget {
     ];
 
     List<Widget> colorWidgets = [];
-    for (int i = 0; i < controller.colors.length; i++) {
+    for (int i = 0; i < widget.settingsController.colors.length; i++) {
       colorWidgets.add(_configOption(
         context,
         colorPositions[i],
@@ -36,7 +48,7 @@ class SettingsView extends StatelessWidget {
           child: Container(
             height: 30,
             decoration: BoxDecoration(
-              color: controller.colors[i],
+              color: widget.settingsController.colors[i],
               border: Border.all(color: Colors.black),
             ),
           ),
@@ -45,6 +57,8 @@ class SettingsView extends StatelessWidget {
     }
 
     return RubikScaffold(
+      settingsController: widget.settingsController,
+      rubikCubeController: widget.rubikCubeController,
       title: locale.settingsTitle,
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -63,9 +77,12 @@ class SettingsView extends StatelessWidget {
             context,
             locale.settingsTheme,
             DropdownButton<ThemeMode>(
-              value: controller.themeMode,
+              value: widget.settingsController.themeMode,
               isExpanded: true,
-              onChanged: controller.updateThemeMode,
+              onChanged: (t) {
+                widget.settingsController.updateThemeMode(t);
+                setState(() {});
+              },
               items: [
                 DropdownMenuItem(
                   value: ThemeMode.system,
@@ -86,9 +103,12 @@ class SettingsView extends StatelessWidget {
             context,
             locale.settingsLanguage,
             DropdownButton(
-              value: controller.language,
+              value: widget.settingsController.language,
               isExpanded: true,
-              onChanged: (l) => controller.updateLanguageMode(l),
+              onChanged: (l) {
+                widget.settingsController.updateLanguageMode(l);
+                setState(() {});
+              },
               items: [
                 _dropdownMenuItemLocation(
                     'pt', FlagsCode.BR, locale.settingsPortuguese),
@@ -119,7 +139,8 @@ class SettingsView extends StatelessWidget {
   }
 
   void _colorPicker(BuildContext context, AppLocalizations locale, int index) {
-    Color previousColor = controller.colors[index]; // Cor anterior
+    Color previousColor =
+        widget.settingsController.colors[index]; // Cor anterior
 
     showDialog(
       context: context,
@@ -129,8 +150,10 @@ class SettingsView extends StatelessWidget {
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: previousColor,
-              onColorChanged: (Color newColor) =>
-                  controller.updateColors(newColor, index),
+              onColorChanged: (c) {
+                widget.settingsController.updateColors(c, index);
+                setState(() {});
+              },
               pickerAreaHeightPercent: 0.8,
             ),
           ),
@@ -144,7 +167,7 @@ class SettingsView extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                controller.updateColors(previousColor, index);
+                widget.settingsController.updateColors(previousColor, index);
                 Navigator.of(context).pop();
               },
               child: Text(

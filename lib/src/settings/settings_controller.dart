@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'settings_service.dart';
 
 class SettingsController with ChangeNotifier {
@@ -10,6 +11,7 @@ class SettingsController with ChangeNotifier {
 
   SettingsController._internal(this._settingsService);
 
+  late RubikCubeController _rubikCubeController;
   final SettingsService _settingsService;
 
   late ThemeMode _themeMode;
@@ -21,6 +23,10 @@ class SettingsController with ChangeNotifier {
   String get language => _language;
   AppLocalizations get languageMode => _languageMode;
   List<Color> get colors => _colors;
+
+  void setRubikCubeController(RubikCubeController controller) {
+    _rubikCubeController = controller;
+  }
 
   Future<void> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
@@ -36,6 +42,7 @@ class SettingsController with ChangeNotifier {
 
     _themeMode = newThemeMode;
 
+    print(_themeMode);
     notifyListeners();
 
     await _settingsService.updateThemeMode(newThemeMode);
@@ -58,6 +65,8 @@ class SettingsController with ChangeNotifier {
     if (_colors.contains(newColor)) return;
 
     _colors[index] = newColor;
+
+    _rubikCubeController.clearColors();
 
     notifyListeners();
 

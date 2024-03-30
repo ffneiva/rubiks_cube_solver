@@ -10,6 +10,10 @@
   "closeButton": "Fermer",
   "solve": "Résoudre",
   "error": "Erreur",
+
+  "rubikPage": "Cube de Rubik",
+  "settingsPage": "Paramètres",
+  "historicPage": "Historique",
   
   "generalSettings": "Paramètres généraux",
   "cubeSettings": "Paramètres du cube",
@@ -40,6 +44,8 @@
   "projectionRight": "Projection de droite",
   "projectionBack": "Projection de derrière",
   "projectionDown": "Projection du bas",
+  
+  "rubikCubeClearColors": "Effacer les couleurs",
   
   "messageNotFilled": "Toutes les stickers n'ont pas été remplis",
   "messageInvalidFilling": "Remplissage invalide, veuillez modifier les couleurs",

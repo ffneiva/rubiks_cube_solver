@@ -13,6 +13,7 @@ class RubikCubeController with ChangeNotifier {
 
   RubikCubeController._internal(this._rubikCubeService);
 
+  late SettingsController _settingsController;
   final RubikCubeService _rubikCubeService;
 
   late List<List<Color>> _faceColors;
@@ -23,22 +24,26 @@ class RubikCubeController with ChangeNotifier {
   Color get defaultColor => _defaultColor;
   List<List<Color>> get faceColors => _faceColors;
 
-  Future<void> loadRubikCube(SettingsController settingsController) async {
+  void setSettingsController(SettingsController controller) {
+    _settingsController = controller;
+  }
+
+  Future<void> loadRubikCube() async {
     _sides = _rubikCubeService.sides();
     _defaultColor = _rubikCubeService.defaultColor();
     _faceColors = _rubikCubeService.colors(
       _sides,
       _defaultColor,
-      settingsController.colors,
+      _settingsController.colors,
     );
     notifyListeners();
   }
 
-  Future<void> clearColors(SettingsController settingsController) async {
+  Future<void> clearColors() async {
     _faceColors = _rubikCubeService.colors(
       _sides,
       _defaultColor,
-      settingsController.colors,
+      _settingsController.colors,
     );
     notifyListeners();
   }
@@ -54,14 +59,13 @@ class RubikCubeController with ChangeNotifier {
     await _rubikCubeService.updateColors(_faceColors);
   }
 
-  Future<Map<String, String>> solve(
-      SettingsController settingsController, AppLocalizations locale) async {
+  Future<Map<String, String>> solve(AppLocalizations locale) async {
     for (int face = 0; face < 6; face++) {
       for (int sticker = 0; sticker < pow(sides, 2); sticker++) {
         if (_faceColors[face][sticker] == Colors.transparent) {
           return {'error': locale.messageNotFilled};
         }
-        if (!settingsController.colors.any((materialColor) =>
+        if (!_settingsController.colors.any((materialColor) =>
             materialColor.value == _faceColors[face][sticker].value)) {
           return {'error': locale.messageInvalidFilling};
         }
@@ -69,7 +73,7 @@ class RubikCubeController with ChangeNotifier {
     }
 
     try {
-      String scramble = colors2notation(settingsController, _faceColors);
+      String scramble = colors2notation(_faceColors);
       cuber.Cube cube = cuber.Cube.from(scramble);
       if (cube == cuber.Cube.solved) {
         return {'error': locale.messageCubeSolved};
@@ -79,7 +83,7 @@ class RubikCubeController with ChangeNotifier {
       cuber.Solution solution = await solutions.first;
       return {
         'solve': solution.toString(),
-        'time': solution.elapsedTime.toString().substring(6),
+        'time': solution.elapsedTime.toString().substring(6, 11),
         'moves': solution.length.toString(),
       };
     } catch (e) {
@@ -87,13 +91,11 @@ class RubikCubeController with ChangeNotifier {
     }
   }
 
-  String colors2notation(
-      SettingsController settingsController, List<List<Color>> colors) {
+  String colors2notation(List<List<Color>> colors) {
     String notation = '';
     for (int face = 0; face < 6; face++) {
       for (int sticker = 0; sticker < pow(sides, 2); sticker++) {
-        notation +=
-            _getFaceNotation(settingsController, _faceColors[face][sticker]);
+        notation += _getFaceNotation(_faceColors[face][sticker]);
       }
     }
 
@@ -106,18 +108,18 @@ class RubikCubeController with ChangeNotifier {
     return notation;
   }
 
-  String _getFaceNotation(SettingsController settingsController, Color color) {
-    if (color == settingsController.colors[0]) {
+  String _getFaceNotation(Color color) {
+    if (color == _settingsController.colors[0]) {
       return 'U';
-    } else if (color == settingsController.colors[1]) {
+    } else if (color == _settingsController.colors[1]) {
       return 'L';
-    } else if (color == settingsController.colors[2]) {
+    } else if (color == _settingsController.colors[2]) {
       return 'F';
-    } else if (color == settingsController.colors[3]) {
+    } else if (color == _settingsController.colors[3]) {
       return 'R';
-    } else if (color == settingsController.colors[4]) {
+    } else if (color == _settingsController.colors[4]) {
       return 'B';
-    } else if (color == settingsController.colors[5]) {
+    } else if (color == _settingsController.colors[5]) {
       return 'D';
     } else {
       return '';

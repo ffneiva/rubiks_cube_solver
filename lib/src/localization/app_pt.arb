@@ -10,6 +10,10 @@
   "closeButton": "Fechar",
   "solve": "Resolver",
   "error": "Erro",
+
+  "rubikPage": "Cubo mágico",
+  "settingsPage": "Configurações",
+  "historicPage": "Histórico",
   
   "generalSettings": "Configurações gerais",
   "cubeSettings": "Configurações do cubo",
@@ -40,6 +44,8 @@
   "projectionRight": "Projeção do lado direito",
   "projectionBack": "Projeção do lado de trás",
   "projectionDown": "Projeção do lado debaixo",
+
+  "rubikCubeClearColors": "Limpar cores",
   
   "messageNotFilled": "Não preencheu todos os adesivos",
   "messageInvalidFilling": "Preenchimento inválido, altere as cores",

@@ -11,6 +11,10 @@
   "solve": "Resolver",
   "error": "Error",
   
+  "rubikPage": "Cubo Mágico",
+  "settingsPage": "Ajustes",
+  "historicPage": "Histórico",
+  
   "generalSettings": "Ajustes generales",
   "cubeSettings": "Ajustes del cubo",
 
@@ -40,6 +44,8 @@
   "projectionRight": "Proyección del lado derecho",
   "projectionBack": "Proyección del lado trasero",
   "projectionDown": "Proyección del lado inferior",
+  
+  "rubikCubeClearColors": "Limpiar colores",
   
   "messageNotFilled": "No se llenaron todas las pegatinas",
   "messageInvalidFilling": "Relleno inválido, cambie los colores",

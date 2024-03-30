@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rubiks_cube_solver/src/historic/historic_view.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'rubik_cube/rubik_cube_view.dart';
 import 'settings/settings_controller.dart';
@@ -49,7 +50,15 @@ class RubikApp extends StatelessWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
-                    return SettingsView(controller: settingsController);
+                    return SettingsView(
+                      settingsController: settingsController,
+                      rubikCubeController: rubikCubeController,
+                    );
+                  case HistoricView.routeName:
+                    return HistoricView(
+                      settingsController: settingsController,
+                      rubikCubeController: rubikCubeController,
+                    );
                   case RubikCubeView.routeName:
                   default:
                     return RubikCubeView(

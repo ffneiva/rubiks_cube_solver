@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
+import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
+import 'package:rubiks_cube_solver/src/widgets/rubik_drawer.dart';
 
 class RubikScaffold extends StatefulWidget {
+  final SettingsController settingsController;
+  final RubikCubeController rubikCubeController;
   final String title;
   final Widget body;
   final List<Widget>? actions;
@@ -8,6 +13,8 @@ class RubikScaffold extends StatefulWidget {
 
   const RubikScaffold({
     Key? key,
+    required this.settingsController,
+    required this.rubikCubeController,
     required this.title,
     required this.body,
     this.actions,
@@ -33,10 +40,15 @@ class _RubikScaffoldState extends State<RubikScaffold> {
     return Scaffold(
       key: _scaffoldState,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: const TextStyle(fontSize: 20)),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         actions: widget.actions,
+      ),
+      drawer: RubikDrawer(
+        scaffoldState: _scaffoldState,
+        settingsController: widget.settingsController,
+        rubikCubeController: widget.rubikCubeController,
       ),
       body: widget.body,
       floatingActionButton: widget.floatingActionButton,

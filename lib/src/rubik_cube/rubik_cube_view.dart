@@ -4,7 +4,6 @@ import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
-import '../settings/settings_view.dart';
 
 class RubikCubeView extends StatefulWidget {
   final SettingsController settingsController;
@@ -29,14 +28,27 @@ class _RubikCubeView extends State<RubikCubeView> {
     AppLocalizations locale = AppLocalizations.of(context)!;
 
     return RubikScaffold(
+      settingsController: widget.settingsController,
+      rubikCubeController: widget.rubikCubeController,
       title: locale.appTitle,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            Navigator.restorablePushNamed(context, SettingsView.routeName);
+        PopupMenuButton(
+          icon: const Icon(Icons.more_vert),
+          offset: const Offset(0, 50),
+          itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry>[
+              _popupItem(
+                locale.rubikCubeClearColors,
+                Icons.delete,
+                () {
+                  widget.rubikCubeController.clearColors();
+                  setState(() {});
+                  Navigator.of(context).pop();
+                },
+              ),
+            ];
           },
-        ),
+        )
       ],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,11 +82,20 @@ class _RubikCubeView extends State<RubikCubeView> {
     );
   }
 
+  dynamic _popupItem(String title, IconData icon, VoidCallback onTap) =>
+      PopupMenuItem(
+        child: ListTile(
+          leading: Icon(icon),
+          title: Text(title),
+          dense: true,
+          contentPadding: const EdgeInsets.all(0),
+          onTap: onTap,
+        ),
+      );
+
   void _solve(AppLocalizations locale) async {
-    Map<String, String> message = await widget.rubikCubeController.solve(
-      widget.settingsController,
-      locale,
-    );
+    Map<String, String> message =
+        await widget.rubikCubeController.solve(locale);
     if (message['error'] != null) {
       _errorMessage(locale, message['error']!);
     }

@@ -7,8 +7,11 @@ void main() async {
   final settingsController = SettingsController();
   final rubikCubeController = RubikCubeController();
 
+  settingsController.setRubikCubeController(rubikCubeController);
+  rubikCubeController.setSettingsController(settingsController);
+
   await settingsController.loadSettings();
-  await rubikCubeController.loadRubikCube(settingsController);
+  await rubikCubeController.loadRubikCube();
 
   runApp(RubikApp(
     settingsController: settingsController,
