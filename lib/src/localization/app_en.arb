@@ -10,6 +10,8 @@
   "closeButton": "Close",
   "solve": "Solve",
   "error": "Error",
+  "date": "Date",
+  "confirmExit": "Confirm Exit",
   
   "rubikPage": "Rubik's Cube",
   "settingsPage": "Settings",
@@ -46,6 +48,13 @@
   "projectionDown": "Bottom side projection",
   
   "rubikCubeClearColors": "Clear colors",
+
+  "historicErrorLoadingData": "Error loading data",
+  "historicNoData": "No data stored in history",
+  "historicClearData": "Clear History",
+  "historicClearAllDataConfirmation": "Confirm deletion of entire history?",
+  "historicClearDataConfirmation": "Confirm deletion of solution ({index}): \"{solution}\"?",
+  "historicMovesQuantity": "Number of Moves",
 
   "messageNotFilled": "Did not fill all stickers",
   "messageInvalidFilling": "Invalid filling, change the colors",

@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
-import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
 class RubikCubeView extends StatefulWidget {
-  final SettingsController settingsController;
-  final RubikCubeController rubikCubeController;
+  final Map<String, dynamic>? solution;
 
   const RubikCubeView({
     Key? key,
-    required this.settingsController,
-    required this.rubikCubeController,
+    this.solution,
   }) : super(key: key);
 
   static const routeName = '/';
@@ -23,13 +20,22 @@ class RubikCubeView extends StatefulWidget {
 }
 
 class _RubikCubeView extends State<RubikCubeView> {
+  final RubikCubeController rubikCubeController = RubikCubeController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.solution != null) {
+      rubikCubeController.notation2colors(widget.solution!['scramble']);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;
 
     return RubikScaffold(
-      settingsController: widget.settingsController,
-      rubikCubeController: widget.rubikCubeController,
       title: locale.appTitle,
       actions: [
         PopupMenuButton(
@@ -40,24 +46,18 @@ class _RubikCubeView extends State<RubikCubeView> {
               _popupItem(
                 locale.rubikCubeClearColors,
                 Icons.delete,
-                () {
-                  widget.rubikCubeController.clearColors();
-                  setState(() {});
-                  Navigator.of(context).pop();
-                },
+                rubikCubeController.clearColors,
               ),
             ];
           },
-        )
+        ),
       ],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: RubikCubeProjection(
-              settingsController: widget.settingsController,
-              rubikCubeController: widget.rubikCubeController,
-            ),
+            child:
+                RubikCubeProjection(rubikCubeController: rubikCubeController),
           ),
           GestureDetector(
             onTap: () => _solve(locale),
@@ -89,13 +89,16 @@ class _RubikCubeView extends State<RubikCubeView> {
           title: Text(title),
           dense: true,
           contentPadding: const EdgeInsets.all(0),
-          onTap: onTap,
+          onTap: () {
+            onTap();
+            Navigator.of(context).pop();
+            setState(() {});
+          },
         ),
       );
 
   void _solve(AppLocalizations locale) async {
-    Map<String, String> message =
-        await widget.rubikCubeController.solve(locale);
+    Map<String, String> message = await rubikCubeController.solve(locale);
     if (message['error'] != null) {
       _errorMessage(locale, message['error']!);
     }

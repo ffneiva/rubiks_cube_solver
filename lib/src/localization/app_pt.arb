@@ -10,6 +10,8 @@
   "closeButton": "Fechar",
   "solve": "Resolver",
   "error": "Erro",
+  "date": "Data",
+  "confirmExit": "Confirmar saída",
 
   "rubikPage": "Cubo mágico",
   "settingsPage": "Configurações",
@@ -46,6 +48,13 @@
   "projectionDown": "Projeção do lado debaixo",
 
   "rubikCubeClearColors": "Limpar cores",
+
+  "historicErrorLoadingData": "Erro ao carregar os dados",
+  "historicNoData": "Nenhum dado armazenado no histórico",
+  "historicClearData": "Limpar histórico",
+  "historicClearAllDataConfirmation": "Confirma exclusão de todo o histórico?",
+  "historicClearDataConfirmation": "Confirma a exclusão da solução ({index}): \"{solution}\"?",
+  "historicMovesQuantity": "Quantidade de movimentos",
   
   "messageNotFilled": "Não preencheu todos os adesivos",
   "messageInvalidFilling": "Preenchimento inválido, altere as cores",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
-import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
-import 'historic_service.dart';
+import 'package:rubiks_cube_solver/src/historic/historic_service.dart';
+import 'package:rubiks_cube_solver/src/utils/database.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HistoricController with ChangeNotifier {
   static final HistoricController _instance =
@@ -11,16 +11,31 @@ class HistoricController with ChangeNotifier {
 
   HistoricController._internal(this._historicService);
 
-  late RubikCubeController _rubikCubeController;
-  late SettingsController _settingsController;
   final HistoricService _historicService;
 
-  void setSettingsController(SettingsController controller) {
-    _settingsController = controller;
+  Future<void> saveSolutions(Map<String, String> solutions) async {
+    DatabaseHelper().database.then((db) async {
+      await db.insert(
+        'solutions',
+        solutions,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    });
   }
 
-  void setRubikCubeController(RubikCubeController controller) {
-    _rubikCubeController = controller;
+  Future<List<Map<String, dynamic>>> getSolutions() async {
+    final db = await DatabaseHelper().database;
+    return await db.query('solutions');
+  }
+
+  Future<void> deleteSolution(String id) async {
+    final db = await DatabaseHelper().database;
+    db.delete('solutions', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> clearSolutions() async {
+    final db = await DatabaseHelper().database;
+    db.delete('solutions');
   }
 
   Future<void> loadHistoric() async {

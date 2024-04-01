@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cuber/cuber.dart' as cuber;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:rubiks_cube_solver/src/historic/historic_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_service.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 
@@ -14,6 +15,7 @@ class RubikCubeController with ChangeNotifier {
   RubikCubeController._internal(this._rubikCubeService);
 
   late SettingsController _settingsController;
+  late HistoricController _historicController;
   final RubikCubeService _rubikCubeService;
 
   late List<List<Color>> _faceColors;
@@ -24,9 +26,13 @@ class RubikCubeController with ChangeNotifier {
   Color get defaultColor => _defaultColor;
   List<List<Color>> get faceColors => _faceColors;
 
-  void setSettingsController(SettingsController controller) {
-    _settingsController = controller;
-  }
+  void setSettingsController(SettingsController controller) =>
+      _settingsController = controller;
+
+  void setHistoricController(HistoricController controller) =>
+      _historicController = controller;
+
+  void setFaceColors(List<List<Color>> colors) => _faceColors = colors;
 
   Future<void> loadRubikCube() async {
     _sides = _rubikCubeService.sides();
@@ -75,19 +81,46 @@ class RubikCubeController with ChangeNotifier {
     try {
       String scramble = colors2notation(_faceColors);
       cuber.Cube cube = cuber.Cube.from(scramble);
+
       if (cube == cuber.Cube.solved) {
         return {'error': locale.messageCubeSolved};
       }
+
       Stream<cuber.Solution> solutions =
           cube.solveDeeply(timeout: const Duration(seconds: 3));
       cuber.Solution solution = await solutions.first;
-      return {
-        'solve': solution.toString(),
-        'time': solution.elapsedTime.toString().substring(6, 11),
-        'moves': solution.length.toString(),
-      };
+
+      String solve = solution.toString();
+      String time = solution.elapsedTime.toString();
+      String moves = solution.length.toString();
+
+      _historicController.saveSolutions({
+        'date': DateTime.now().toString(),
+        'scramble': scramble,
+        'alg': solve,
+        'time': time,
+        'moves': moves,
+      });
+
+      return {'solve': solve, 'time': time.substring(6, 11), 'moves': moves};
     } catch (e) {
       return {'error': locale.messageNotFindSolution};
+    }
+  }
+
+  void notation2colors(String notation) {
+    notation = _getPart(notation, 0) +
+        _getPart(notation, 4) +
+        _getPart(notation, 2) +
+        _getPart(notation, 1) +
+        _getPart(notation, 5) +
+        _getPart(notation, 3);
+    int counter = 0;
+    for (int face = 0; face < 6; face++) {
+      for (int sticker = 0; sticker < pow(sides, 2); sticker++) {
+        _faceColors[face][sticker] = _getFaceColor(notation[counter]);
+        counter++;
+      }
     }
   }
 
@@ -123,6 +156,24 @@ class RubikCubeController with ChangeNotifier {
       return 'D';
     } else {
       return '';
+    }
+  }
+
+  Color _getFaceColor(String notation) {
+    if (notation == 'U') {
+      return _settingsController.colors[0];
+    } else if (notation == 'L') {
+      return _settingsController.colors[1];
+    } else if (notation == 'F') {
+      return _settingsController.colors[2];
+    } else if (notation == 'R') {
+      return _settingsController.colors[3];
+    } else if (notation == 'B') {
+      return _settingsController.colors[4];
+    } else if (notation == 'D') {
+      return _settingsController.colors[5];
+    } else {
+      return Colors.transparent;
     }
   }
 

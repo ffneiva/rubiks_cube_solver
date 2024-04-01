@@ -5,14 +5,10 @@ import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 
 class RubikCubeFace extends StatefulWidget {
   final int face;
-  final SettingsController settingsController;
-  final RubikCubeController rubikCubeController;
 
   const RubikCubeFace({
     Key? key,
     required this.face,
-    required this.settingsController,
-    required this.rubikCubeController,
   }) : super(key: key);
 
   @override
@@ -21,6 +17,8 @@ class RubikCubeFace extends StatefulWidget {
 }
 
 class _RubikCubeFace extends State<RubikCubeFace> {
+  final RubikCubeController rubikCubeController = RubikCubeController();
+  final SettingsController settingsController = SettingsController();
   Color? selectedColor;
 
   @override
@@ -46,7 +44,7 @@ class _RubikCubeFace extends State<RubikCubeFace> {
   }
 
   Widget _makeColorPallete(int index) {
-    Color color = widget.settingsController.colors[index];
+    Color color = settingsController.colors[index];
     bool isSelected = selectedColor == color;
     Color borderColor = isSelected
         ? (color == Colors.teal ? Colors.teal.shade800 : Colors.teal)
@@ -76,13 +74,13 @@ class _RubikCubeFace extends State<RubikCubeFace> {
 
   Widget _rubikCubeFace(BuildContext context, int face) {
     List<Widget> stickers = [];
-    for (int i = 0; i < pow(widget.rubikCubeController.sides, 2); i++) {
-      stickers.add(_sticker(widget.rubikCubeController.faceColors[face][i], i));
+    for (int i = 0; i < pow(rubikCubeController.sides, 2); i++) {
+      stickers.add(_sticker(rubikCubeController.faceColors[face][i], i));
     }
 
     return GestureDetector(
       child: GridView.count(
-        crossAxisCount: widget.rubikCubeController.sides,
+        crossAxisCount: rubikCubeController.sides,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
         shrinkWrap: true,
@@ -97,11 +95,11 @@ class _RubikCubeFace extends State<RubikCubeFace> {
       onTap: () {
         setState(() {
           if (selectedColor == null) {
-            widget.rubikCubeController
-                .updateSticker(Colors.transparent, widget.face, index);
+            rubikCubeController.updateSticker(
+                Colors.transparent, widget.face, index);
           } else {
-            widget.rubikCubeController
-                .updateSticker(selectedColor, widget.face, index);
+            rubikCubeController.updateSticker(
+                selectedColor, widget.face, index);
           }
         });
       },

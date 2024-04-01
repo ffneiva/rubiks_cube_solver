@@ -3,18 +3,12 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
 class SettingsView extends StatefulWidget {
-  final SettingsController settingsController;
-  final RubikCubeController rubikCubeController;
-
   const SettingsView({
     Key? key,
-    required this.settingsController,
-    required this.rubikCubeController,
   }) : super(key: key);
 
   static const routeName = '/settings';
@@ -25,6 +19,8 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsView extends State<SettingsView> {
+  final SettingsController settingsController = SettingsController();
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;
@@ -39,7 +35,7 @@ class _SettingsView extends State<SettingsView> {
     ];
 
     List<Widget> colorWidgets = [];
-    for (int i = 0; i < widget.settingsController.colors.length; i++) {
+    for (int i = 0; i < settingsController.colors.length; i++) {
       colorWidgets.add(_configOption(
         context,
         colorPositions[i],
@@ -48,7 +44,7 @@ class _SettingsView extends State<SettingsView> {
           child: Container(
             height: 30,
             decoration: BoxDecoration(
-              color: widget.settingsController.colors[i],
+              color: settingsController.colors[i],
               border: Border.all(color: Colors.black),
             ),
           ),
@@ -57,8 +53,6 @@ class _SettingsView extends State<SettingsView> {
     }
 
     return RubikScaffold(
-      settingsController: widget.settingsController,
-      rubikCubeController: widget.rubikCubeController,
       title: locale.settingsTitle,
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -77,10 +71,10 @@ class _SettingsView extends State<SettingsView> {
             context,
             locale.settingsTheme,
             DropdownButton<ThemeMode>(
-              value: widget.settingsController.themeMode,
+              value: settingsController.themeMode,
               isExpanded: true,
               onChanged: (t) {
-                widget.settingsController.updateThemeMode(t);
+                settingsController.updateThemeMode(t);
                 setState(() {});
               },
               items: [
@@ -103,10 +97,10 @@ class _SettingsView extends State<SettingsView> {
             context,
             locale.settingsLanguage,
             DropdownButton(
-              value: widget.settingsController.language,
+              value: settingsController.language,
               isExpanded: true,
               onChanged: (l) {
-                widget.settingsController.updateLanguageMode(l);
+                settingsController.updateLanguageMode(l);
                 setState(() {});
               },
               items: [
@@ -139,8 +133,7 @@ class _SettingsView extends State<SettingsView> {
   }
 
   void _colorPicker(BuildContext context, AppLocalizations locale, int index) {
-    Color previousColor =
-        widget.settingsController.colors[index]; // Cor anterior
+    Color previousColor = settingsController.colors[index]; // Cor anterior
 
     showDialog(
       context: context,
@@ -151,7 +144,7 @@ class _SettingsView extends State<SettingsView> {
             child: ColorPicker(
               pickerColor: previousColor,
               onColorChanged: (c) {
-                widget.settingsController.updateColors(c, index);
+                settingsController.updateColors(c, index);
                 setState(() {});
               },
               pickerAreaHeightPercent: 0.8,
@@ -167,7 +160,7 @@ class _SettingsView extends State<SettingsView> {
             ),
             TextButton(
               onPressed: () {
-                widget.settingsController.updateColors(previousColor, index);
+                settingsController.updateColors(previousColor, index);
                 Navigator.of(context).pop();
               },
               child: Text(

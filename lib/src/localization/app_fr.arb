@@ -10,6 +10,8 @@
   "closeButton": "Fermer",
   "solve": "Résoudre",
   "error": "Erreur",
+  "date": "Date",
+  "confirmExit": "Confirmer la sortie",
 
   "rubikPage": "Cube de Rubik",
   "settingsPage": "Paramètres",
@@ -46,6 +48,13 @@
   "projectionDown": "Projection du bas",
   
   "rubikCubeClearColors": "Effacer les couleurs",
+  
+  "historicErrorLoadingData": "Erreur lors du chargement des données",
+  "historicNoData": "Aucune donnée stockée dans l'historique",
+  "historicClearData": "Effacer l'historique",
+  "historicClearAllDataConfirmation": "Confirmer la suppression de tout l'historique ?",
+  "historicClearDataConfirmation": "Confirmer la suppression de la solution ({index}): \"{solution}\" ?",
+  "historicMovesQuantity": "Quantité de mouvements",
   
   "messageNotFilled": "Toutes les stickers n'ont pas été remplis",
   "messageInvalidFilling": "Remplissage invalide, veuillez modifier les couleurs",

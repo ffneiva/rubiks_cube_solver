@@ -3,17 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_face.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 
 class RubikCubeProjection extends StatefulWidget {
-  final SettingsController settingsController;
   final RubikCubeController rubikCubeController;
 
   const RubikCubeProjection({
     Key? key,
-    required this.settingsController,
     required this.rubikCubeController,
   }) : super(key: key);
 
@@ -23,6 +21,8 @@ class RubikCubeProjection extends StatefulWidget {
 }
 
 class _RubikCubeProjection extends State<RubikCubeProjection> {
+  final SettingsController settingsController = SettingsController();
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;
@@ -30,27 +30,27 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
     List<Map<String, dynamic>> data = [
       {
         'title': locale.projectionUp,
-        'color': widget.settingsController.colors[0],
+        'color': settingsController.colors[0],
       },
       {
         'title': locale.projectionLeft,
-        'color': widget.settingsController.colors[1],
+        'color': settingsController.colors[1],
       },
       {
         'title': locale.projectionFront,
-        'color': widget.settingsController.colors[2],
+        'color': settingsController.colors[2],
       },
       {
         'title': locale.projectionRight,
-        'color': widget.settingsController.colors[3],
+        'color': settingsController.colors[3],
       },
       {
         'title': locale.projectionBack,
-        'color': widget.settingsController.colors[4],
+        'color': settingsController.colors[4],
       },
       {
         'title': locale.projectionDown,
-        'color': widget.settingsController.colors[5],
+        'color': settingsController.colors[5],
       },
     ];
 
@@ -155,11 +155,7 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
           content: SingleChildScrollView(
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child: RubikCubeFace(
-                face: face,
-                settingsController: widget.settingsController,
-                rubikCubeController: widget.rubikCubeController,
-              ),
+              child: RubikCubeFace(face: face),
             ),
           ),
           actions: <Widget>[

@@ -1,21 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_view.dart';
-import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_view.dart';
-import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_view.dart';
+import 'package:rubiks_cube_solver/src/utils/functions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RubikDrawer extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldState;
-  final SettingsController settingsController;
-  final RubikCubeController rubikCubeController;
 
   const RubikDrawer({
     Key? key,
     required this.scaffoldState,
-    required this.settingsController,
-    required this.rubikCubeController,
   }) : super(key: key);
 
   static const routeName = '/';
@@ -31,33 +29,22 @@ class _RubikDrawer extends State<RubikDrawer> {
     AppLocalizations locale = AppLocalizations.of(context)!;
 
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
-          _drawerHeader(locale),
-          _listTileItem(
-            Icons.extension,
-            locale.rubikPage,
-            RubikCubeView(
-              settingsController: widget.settingsController,
-              rubikCubeController: widget.rubikCubeController,
+          Expanded(
+            child: ListView(
+              children: [
+                _drawerHeader(locale),
+                _listTileItem(
+                    Icons.extension, locale.rubikPage, const RubikCubeView()),
+                _listTileItem(
+                    Icons.history, locale.historicPage, const HistoricView()),
+                _listTileItem(
+                    Icons.settings, locale.settingsPage, const SettingsView()),
+              ],
             ),
           ),
-          _listTileItem(
-            Icons.history,
-            locale.historicPage,
-            HistoricView(
-              settingsController: widget.settingsController,
-              rubikCubeController: widget.rubikCubeController,
-            ),
-          ),
-          _listTileItem(
-            Icons.settings,
-            locale.settingsPage,
-            SettingsView(
-              settingsController: widget.settingsController,
-              rubikCubeController: widget.rubikCubeController,
-            ),
-          ),
+          _copyright(),
         ],
       ),
     );
@@ -72,8 +59,8 @@ class _RubikDrawer extends State<RubikDrawer> {
         children: [
           CircleAvatar(
             backgroundColor: Colors.white,
-            radius: 40,
-            child: Image.asset('assets/images/logo.png', height: 80),
+            radius: 50,
+            child: Image.asset('assets/images/logo.png'),
           ),
           const SizedBox(height: 8),
           Text(
@@ -95,11 +82,21 @@ class _RubikDrawer extends State<RubikDrawer> {
       title: Text(title),
       onTap: () {
         Navigator.pop(context);
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => page),
         );
       },
+    );
+  }
+
+  Widget _copyright() {
+    return ListTile(
+      title: Center(
+        child: Text(getCopyright(), style: const TextStyle(fontSize: 12)),
+      ),
+      onTap: () => launchUrl(Uri.parse(getCopyrightLink())),
     );
   }
 }

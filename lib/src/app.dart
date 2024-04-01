@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rubiks_cube_solver/src/historic/historic_controller.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_view.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'rubik_cube/rubik_cube_view.dart';
@@ -12,10 +13,12 @@ class RubikApp extends StatelessWidget {
     super.key,
     required this.settingsController,
     required this.rubikCubeController,
+    required this.historicController,
   });
 
   final SettingsController settingsController;
   final RubikCubeController rubikCubeController;
+  final HistoricController historicController;
 
   @override
   Widget build(BuildContext context) {
@@ -50,21 +53,12 @@ class RubikApp extends StatelessWidget {
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
-                    return SettingsView(
-                      settingsController: settingsController,
-                      rubikCubeController: rubikCubeController,
-                    );
+                    return const SettingsView();
                   case HistoricView.routeName:
-                    return HistoricView(
-                      settingsController: settingsController,
-                      rubikCubeController: rubikCubeController,
-                    );
+                    return const HistoricView();
                   case RubikCubeView.routeName:
                   default:
-                    return RubikCubeView(
-                      settingsController: settingsController,
-                      rubikCubeController: rubikCubeController,
-                    );
+                    return const RubikCubeView();
                 }
               },
             );
