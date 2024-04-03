@@ -2,7 +2,7 @@
   "@@locale": "en",
 
   "appTitle": "Rubik Cube Solver",
-  
+
   "settingsTitle": "Settings",
 
   "confirmButton": "Confirm",
@@ -12,10 +12,12 @@
   "error": "Error",
   "date": "Date",
   "confirmExit": "Confirm Exit",
-  
+
   "rubikPage": "Rubik's Cube",
   "settingsPage": "Settings",
   "historicPage": "History",
+  "examplePage": "Examples",
+  "aboutPage": "About",
 
   "generalSettings": "General Settings",
   "cubeSettings": "Cube Settings",
@@ -46,7 +48,7 @@
   "projectionRight": "Right side projection",
   "projectionBack": "Back side projection",
   "projectionDown": "Bottom side projection",
-  
+
   "rubikCubeClearColors": "Clear colors",
 
   "historicErrorLoadingData": "Error loading data",
@@ -55,6 +57,38 @@
   "historicClearAllDataConfirmation": "Confirm deletion of entire history?",
   "historicClearDataConfirmation": "Confirm deletion of solution ({index}): \"{solution}\"?",
   "historicMovesQuantity": "Number of Moves",
+
+  "exampleSolution": "Solution",
+  "exampleCubeInCubeInCube": "Cube in Cube in Cube",
+  "exampleAnaconda": "Anaconda",
+  "exampleCheckerboard": "Checkerboard",
+  "exampleCheckerboard2": "Checkerboard 2",
+  "exampleChickenFeet": "Chicken Feet",
+  "exampleCrossOne": "Cross One",
+  "exampleCrossTwo": "Cross Two",
+  "exampleCubeInCube": "Cube in Cube",
+  "exampleFourSpots": "Four Spots",
+  "examplePython": "Python",
+  "exampleSixSpots": "Six Spots",
+  "exampleSixTs": "Six T's",
+  "exampleSolved": "Solved",
+  "exampleSpiral": "Spiral",
+  "exampleStripes": "Stripes",
+  "exampleTetris": "Tetris",
+  "exampleTwister": "Twister",
+  "exampleWire": "Wire",
+  "exampleMaxPark313": "WR 2023: Max Park 3.13s",
+  "exampleYushengDu347": "WR 2018: Yusheng Du 3.47s",
+  "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
+  "examplePllJa": "PLL Ja",
+  "examplePllJb": "PLL Jb",
+
+  "aboutExtensionProject": "Extension Project",
+  "aboutExtensionProjectParagraphs": "This app is a Flutter implementation of a solver for the Rubik's Cube, developed as part of an extension project at the Federal University of Goiás (UFG). It uses the Kociemba algorithm to find a solution with a minimal number of moves, close to the \"God's number\".",
+  "aboutKociembaAlgorithm": "Kociemba Algorithm",
+  "aboutKociembaAlgorithmParagraphs": "The Kociemba algorithm reduces the cube to a state that requires only double-layer moves except in two opposite layers, \"transforming\" the cube into a 3x3x2, and then solves the cube with a maximum of 29 moves.",
+  "aboutGodNumber": "God's Number",
+  "aboutGodNumberParagraphs": "The \"God's Number\" is a metric referring to the maximum number of moves needed to solve any configuration of the Rubik's Cube, regardless of how it's scrambled. Mathematical studies have shown that God's Number is 20.",
 
   "messageNotFilled": "Did not fill all stickers",
   "messageInvalidFilling": "Invalid filling, change the colors",

@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/about/about_view.dart';
+import 'package:rubiks_cube_solver/src/example/examples_view.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_view.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_view.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_view.dart';
@@ -39,8 +39,12 @@ class _RubikDrawer extends State<RubikDrawer> {
                     Icons.extension, locale.rubikPage, const RubikCubeView()),
                 _listTileItem(
                     Icons.history, locale.historicPage, const HistoricView()),
+                _listTileItem(Icons.library_books, locale.examplePage,
+                    const ExampleView()),
                 _listTileItem(
                     Icons.settings, locale.settingsPage, const SettingsView()),
+                _listTileItem(
+                    Icons.info_outline, locale.aboutPage, const AboutView()),
               ],
             ),
           ),

@@ -37,8 +37,4 @@ class HistoricController with ChangeNotifier {
     final db = await DatabaseHelper().database;
     db.delete('solutions');
   }
-
-  Future<void> loadHistoric() async {
-    notifyListeners();
-  }
 }

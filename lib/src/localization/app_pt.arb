@@ -2,7 +2,7 @@
   "@@locale": "pt",
 
   "appTitle": "Solucionador de Cubo Mágico",
-  
+
   "settingsTitle": "Configurações",
 
   "confirmButton": "Confirmar",
@@ -16,7 +16,9 @@
   "rubikPage": "Cubo mágico",
   "settingsPage": "Configurações",
   "historicPage": "Histórico",
-  
+  "examplePage": "Exemplos",
+  "aboutPage": "Sobre",
+
   "generalSettings": "Configurações gerais",
   "cubeSettings": "Configurações do cubo",
 
@@ -55,7 +57,39 @@
   "historicClearAllDataConfirmation": "Confirma exclusão de todo o histórico?",
   "historicClearDataConfirmation": "Confirma a exclusão da solução ({index}): \"{solution}\"?",
   "historicMovesQuantity": "Quantidade de movimentos",
-  
+
+  "exampleSolution": "Solução",
+  "exampleCubeInCubeInCube": "Cubo dentro de cubo dentro de cubo",
+  "exampleAnaconda": "Cobra",
+  "exampleCheckerboard": "Xadrez",
+  "exampleCheckerboard2": "Tabuleiro",
+  "exampleChickenFeet": "Pés de galinha",
+  "exampleCrossOne": "Cruz 1",
+  "exampleCrossTwo": "Cruz 2",
+  "exampleCubeInCube": "Cubo dentro de cubo",
+  "exampleFourSpots": "Quatro pontos",
+  "examplePython": "Cobra 2",
+  "exampleSixSpots": "Seis pontos",
+  "exampleSixTs": "Seis T's",
+  "exampleSolved": "Resolvido",
+  "exampleSpiral": "Espiral",
+  "exampleStripes": "Listras",
+  "exampleTetris": "Tetris",
+  "exampleTwister": "Torção",
+  "exampleWire": "Fio",
+  "exampleMaxPark313": "WR 2023: Max Park 3.13s",
+  "exampleYushengDu347": "WR 2018: Yusheng Du 3.47s",
+  "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
+  "examplePllJa": "PLL Ja",
+  "examplePllJb": "PLL Jb",
+
+  "aboutExtensionProject": "Projeto de Extensão",
+  "aboutExtensionProjectParagraphs": "Este aplicativo é uma implementação em Flutter de um solver para o Cubo Mágico, desenvolvido como parte de um projeto de extensão na Universidade Federal de Goiás (UFG). Ele utiliza o algoritmo de Kociemba para encontrar uma solução com uma quantidade mínima de movimentos, próxima ao \"número de Deus\".",
+  "aboutKociembaAlgorithm": "Algoritmo de Kociemba",
+  "aboutKociembaAlgorithmParagraphs": "O algoritmo de Kociemba reduz o cubo a um estado que requer apenas movimentações duplas exceto em duas camadas opostas, \"transformando\" o cubo em um 3x3x2, e depois resolve o cubo com um máximo de 29 movimentos.",
+  "aboutGodNumber": "Número de Deus",
+  "aboutGodNumberParagraphs": "O \"número de Deus\" é uma métrica que se refere à quantidade máxima de movimentos necessários para resolver qualquer configuração do Cubo Mágico, independentemente de como ele esteja embaralhado. Estudos matemáticos demonstraram que o número de Deus é 20.",
+
   "messageNotFilled": "Não preencheu todos os adesivos",
   "messageInvalidFilling": "Preenchimento inválido, altere as cores",
   "messageNotFindSolution": "Não foi possível encontrar uma solução",

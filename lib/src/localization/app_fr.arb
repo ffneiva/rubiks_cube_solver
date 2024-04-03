@@ -2,7 +2,7 @@
   "@@locale": "fr",
 
   "appTitle": "Solveur de Rubik's Cube",
-  
+
   "settingsTitle": "Paramètres",
 
   "confirmButton": "Confirmer",
@@ -16,7 +16,9 @@
   "rubikPage": "Cube de Rubik",
   "settingsPage": "Paramètres",
   "historicPage": "Historique",
-  
+  "examplePage": "Exemples",
+  "aboutPage": "À propos",
+
   "generalSettings": "Paramètres généraux",
   "cubeSettings": "Paramètres du cube",
 
@@ -46,16 +48,48 @@
   "projectionRight": "Projection de droite",
   "projectionBack": "Projection de derrière",
   "projectionDown": "Projection du bas",
-  
+
   "rubikCubeClearColors": "Effacer les couleurs",
-  
+
   "historicErrorLoadingData": "Erreur lors du chargement des données",
   "historicNoData": "Aucune donnée stockée dans l'historique",
   "historicClearData": "Effacer l'historique",
   "historicClearAllDataConfirmation": "Confirmer la suppression de tout l'historique ?",
   "historicClearDataConfirmation": "Confirmer la suppression de la solution ({index}): \"{solution}\" ?",
   "historicMovesQuantity": "Quantité de mouvements",
-  
+
+  "exampleSolution": "Solution",
+  "exampleCubeInCubeInCube": "Cube dans Cube dans Cube",
+  "exampleAnaconda": "Anaconda",
+  "exampleCheckerboard": "Échiquier",
+  "exampleCheckerboard2": "Échiquier 2",
+  "exampleChickenFeet": "Pattes de Poulet",
+  "exampleCrossOne": "Croix Un",
+  "exampleCrossTwo": "Croix Deux",
+  "exampleCubeInCube": "Cube dans Cube",
+  "exampleFourSpots": "Quatre Taches",
+  "examplePython": "Python",
+  "exampleSixSpots": "Six Taches",
+  "exampleSixTs": "Six T",
+  "exampleSolved": "Résolu",
+  "exampleSpiral": "Spirale",
+  "exampleStripes": "Rayures",
+  "exampleTetris": "Tetris",
+  "exampleTwister": "Torsion",
+  "exampleWire": "Fil",
+  "exampleMaxPark313": "WR 2023: Max Park 3.13s",
+  "exampleYushengDu347": "WR 2018: Yusheng Du 3.47s",
+  "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
+  "examplePllJa": "PLL Ja",
+  "examplePllJb": "PLL Jb",
+
+  "aboutExtensionProject": "Projet d'Extension",
+  "aboutExtensionProjectParagraphs": "Cette application est une implémentation en Flutter d'un solveur pour le Rubik's Cube, développée dans le cadre d'un projet d'extension à l'Université Fédérale de Goiás (UFG). Il utilise l'algorithme de Kociemba pour trouver une solution avec un nombre minimal de mouvements, proche du \"nombre de Dieu\".",
+  "aboutKociembaAlgorithm": "Algorithme de Kociemba",
+  "aboutKociembaAlgorithmParagraphs": "L'algorithme de Kociemba réduit le cube à un état qui ne nécessite que des mouvements doubles sauf dans deux couches opposées, \"transformant\" le cube en un 3x3x2, puis résout le cube avec un maximum de 29 mouvements.",
+  "aboutGodNumber": "Nombre de Dieu",
+  "aboutGodNumberParagraphs": "Le \"nombre de Dieu\" est une métrique se référant au nombre maximum de mouvements nécessaires pour résoudre n'importe quelle configuration du Rubik's Cube, quelle que soit la manière dont il est mélangé. Des études mathématiques ont montré que le nombre de Dieu est 20.",
+
   "messageNotFilled": "Toutes les stickers n'ont pas été remplis",
   "messageInvalidFilling": "Remplissage invalide, veuillez modifier les couleurs",
   "messageNotFindSolution": "Impossible de trouver une solution",

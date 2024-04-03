@@ -2,7 +2,7 @@
   "@@locale": "es",
 
   "appTitle": "Solucionador de Cubo Mágico",
-  
+
   "settingsTitle": "Ajustes",
 
   "confirmButton": "Confirmar",
@@ -12,11 +12,13 @@
   "error": "Error",
   "date": "Fecha",
   "confirmExit": "Confirmar salida",
-  
+
   "rubikPage": "Cubo Mágico",
   "settingsPage": "Ajustes",
   "historicPage": "Histórico",
-  
+  "examplePage": "Ejemplos",
+  "aboutPage": "Acerca de",
+
   "generalSettings": "Ajustes generales",
   "cubeSettings": "Ajustes del cubo",
 
@@ -46,16 +48,48 @@
   "projectionRight": "Proyección del lado derecho",
   "projectionBack": "Proyección del lado trasero",
   "projectionDown": "Proyección del lado inferior",
-  
+
   "rubikCubeClearColors": "Limpiar colores",
-  
+
   "historicErrorLoadingData": "Error al cargar los datos",
   "historicNoData": "Ningún dato almacenado en el historial",
   "historicClearData": "Limpiar historial",
   "historicClearAllDataConfirmation": "¿Confirmar eliminación de todo el historial?",
   "historicClearDataConfirmation": "¿Confirmar la eliminación de la solución ({index}): \"{solution}\"?",
   "historicMovesQuantity": "Cantidad de movimientos",
-  
+
+  "exampleSolution": "Solución",
+  "exampleCubeInCubeInCube": "Cubo en Cubo en Cubo",
+  "exampleAnaconda": "Anaconda",
+  "exampleCheckerboard": "Tablero de Ajedrez",
+  "exampleCheckerboard2": "Tablero de Ajedrez 2",
+  "exampleChickenFeet": "Patas de Pollo",
+  "exampleCrossOne": "Cruz Uno",
+  "exampleCrossTwo": "Cruz Dos",
+  "exampleCubeInCube": "Cubo en Cubo",
+  "exampleFourSpots": "Cuatro Puntos",
+  "examplePython": "Python",
+  "exampleSixSpots": "Seis Puntos",
+  "exampleSixTs": "Seis T's",
+  "exampleSolved": "Resuelto",
+  "exampleSpiral": "Espiral",
+  "exampleStripes": "Rayas",
+  "exampleTetris": "Tetris",
+  "exampleTwister": "Giro",
+  "exampleWire": "Alambre",
+  "exampleMaxPark313": "WR 2023: Max Park 3.13s",
+  "exampleYushengDu347": "WR 2018: Yusheng Du 3.47s",
+  "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
+  "examplePllJa": "PLL Ja",
+  "examplePllJb": "PLL Jb",
+
+  "aboutExtensionProject": "Proyecto de Extensión",
+  "aboutExtensionProjectParagraphs": "Esta aplicación es una implementación en Flutter de un solucionador para el Cubo de Rubik, desarrollado como parte de un proyecto de extensión en la Universidad Federal de Goiás (UFG). Utiliza el algoritmo de Kociemba para encontrar una solución con la cantidad mínima de movimientos, cercanaal \"número de Dios\".",
+  "aboutKociembaAlgorithm": "Algoritmo de Kociemba",
+  "aboutKociembaAlgorithmParagraphs": "El algoritmo de Kociemba reduce el cubo a un estado que requiere solo movimientos de capa doble excepto en dos capas opuestas, \"transformando\" el cubo en un 3x3x2, y luego resuelve el cubo con un máximo de 29 movimientos.",
+  "aboutGodNumber": "Número de Dios",
+  "aboutGodNumberParagraphs": "El \"Número de Dios\" es una métrica que se refiere a la cantidad máxima de movimientos necesarios para resolver cualquier configuración del Cubo de Rubik, independientemente de cómo esté desordenado. Estudios matemáticos han demostrado que el número de Dios es 20.",
+
   "messageNotFilled": "No se llenaron todas las pegatinas",
   "messageInvalidFilling": "Relleno inválido, cambie los colores",
   "messageNotFindSolution": "No se pudo encontrar una solución",
