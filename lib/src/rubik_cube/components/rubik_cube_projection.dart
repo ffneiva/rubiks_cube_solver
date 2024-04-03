@@ -60,18 +60,10 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
           .add(_rubikCubeFace(context, data[i]['title'], data[i]['color'], i));
     }
 
-    double aspectRatio = MediaQuery.of(context).size.width /
-        (MediaQuery.of(context).size.height -
-            MediaQuery.of(context).padding.top -
-            kToolbarHeight -
-            100) /
-        2 *
-        3;
-
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: aspectRatio,
+      childAspectRatio: 0.80,
       padding: const EdgeInsets.all(16),
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
@@ -88,19 +80,35 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
     }
 
     return Column(children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title,
-              style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-              )),
-          InkWell(
-            onTap: () => _takePhoto(face),
-            child: const Icon(Icons.camera_alt_rounded),
-          ),
-        ],
+      FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(title, textAlign: TextAlign.center),
+      ),
+      SizedBox(
+        width: 100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => _takePhoto(face),
+              child: const Icon(Icons.camera_alt_rounded),
+            ),
+            InkWell(
+              onTap: () {
+                widget.rubikCubeController.rotate(face);
+                setState(() {});
+              },
+              child: const Icon(Icons.rotate_90_degrees_cw_outlined),
+            ),
+            InkWell(
+              onTap: () {
+                widget.rubikCubeController.rotate(face, clockwise: false);
+                setState(() {});
+              },
+              child: const Icon(Icons.rotate_90_degrees_ccw_outlined),
+            ),
+          ],
+        ),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 5),

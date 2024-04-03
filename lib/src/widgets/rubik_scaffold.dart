@@ -51,7 +51,7 @@ class _RubikScaffoldState extends State<RubikScaffold> {
     return Scaffold(
       key: _scaffoldState,
       appBar: AppBar(
-        title: Text(widget.title, style: const TextStyle(fontSize: 20)),
+        title: FittedBox(fit: BoxFit.scaleDown, child: Text(widget.title)),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         actions: widget.actions,

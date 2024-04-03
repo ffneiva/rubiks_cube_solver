@@ -56,16 +56,21 @@ class _RubikCubeView extends State<RubikCubeView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child:
-                RubikCubeProjection(rubikCubeController: rubikCubeController),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  RubikCubeProjection(rubikCubeController: rubikCubeController),
+                ],
+              ),
+            ),
           ),
           GestureDetector(
             onTap: () => _solve(locale),
             child: Container(
-              height: 80,
               width: double.infinity,
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               color: Colors.teal,
               child: Text(
                 locale.solve,

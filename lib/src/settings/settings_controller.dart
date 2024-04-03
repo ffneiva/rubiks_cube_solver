@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'settings_service.dart';
@@ -18,11 +19,21 @@ class SettingsController with ChangeNotifier {
   late String _language;
   late AppLocalizations _languageMode;
   late List<Color> _colors;
+  late BluetoothDevice? _blueDevice;
+  late List<BluetoothService>? _blueServices;
+  late BluetoothCharacteristic? _blueCharacteristic;
+  late List<String> _blueChars;
+  late List<String> _blueCharOptions;
 
   ThemeMode get themeMode => _themeMode;
   String get language => _language;
   AppLocalizations get languageMode => _languageMode;
   List<Color> get colors => _colors;
+  BluetoothDevice? get blueDevice => _blueDevice;
+  List<String> get blueChars => _blueChars;
+  List<BluetoothService>? get blueServices => _blueServices;
+  BluetoothCharacteristic? get blueCharacteristic => _blueCharacteristic;
+  List<String> get blueCharOptions => _blueCharOptions;
 
   void setRubikCubeController(RubikCubeController controller) {
     _rubikCubeController = controller;
@@ -33,6 +44,10 @@ class SettingsController with ChangeNotifier {
     _language = _settingsService.language();
     _languageMode = await AppLocalizations.delegate.load(Locale(_language));
     _colors = _settingsService.colors();
+    _blueDevice = _settingsService.bluetoothDevice();
+    _blueChars = _settingsService.blueChars();
+    _blueCharOptions = _settingsService.blueCharOptions();
+    updateBlueCharOptions();
     notifyListeners();
   }
 
@@ -70,5 +85,45 @@ class SettingsController with ChangeNotifier {
     notifyListeners();
 
     await _settingsService.updateColors(_colors);
+  }
+
+  Future<void> updateBlueDevice(BluetoothDevice? device) async {
+    if (device == null) return;
+    if (_blueDevice == device) return;
+
+    _blueDevice = device;
+    _blueServices = await _blueDevice!.discoverServices();
+
+    _blueServices?.forEach((s) {
+      if (s.characteristics.isNotEmpty) {
+        for (int i = 0; i < s.characteristics.length; i++) {
+          if (s.characteristics[i].properties.write) {
+            _blueCharacteristic = s.characteristics[i];
+          }
+        }
+      }
+    });
+
+    notifyListeners();
+
+    await _settingsService.updateBlueDevice(_blueDevice);
+  }
+
+  Future<void> updateBlueChars(String? newChar, int index) async {
+    if (newChar == null) return;
+    if (_blueChars.contains(newChar)) return;
+
+    _blueChars[index] = newChar;
+    updateBlueCharOptions();
+
+    notifyListeners();
+
+    await _settingsService.updateBlueChars(_blueChars);
+  }
+
+  Future<void> updateBlueCharOptions() async {
+    _blueCharOptions = _settingsService.blueCharOptions();
+    _blueCharOptions =
+        _blueCharOptions.where((c) => !_blueChars.contains(c)).toList();
   }
 }

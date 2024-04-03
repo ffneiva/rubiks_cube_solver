@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/utils/functions.dart';
@@ -55,7 +54,9 @@ class _AboutView extends State<AboutView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: Column(children: topics)),
+                Expanded(
+                  child: SingleChildScrollView(child: Column(children: topics)),
+                ),
                 GestureDetector(
                   child: Center(
                     child: Text(

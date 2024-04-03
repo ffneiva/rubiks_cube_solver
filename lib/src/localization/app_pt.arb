@@ -20,6 +20,7 @@
   "aboutPage": "Sobre",
 
   "generalSettings": "Configurações gerais",
+  "bluetoothSettings": "Configurações do bluetooth",
   "cubeSettings": "Configurações do cubo",
 
   "settingsTheme": "Tema",
@@ -32,6 +33,11 @@
   "settingsEnglish": "Inglês",
   "settingsSpanish": "Espanhol",
   "settingsFrench": "Francês",
+
+  "settingsDeviceConnect": "Conectar dispositivo",
+  "settingsBluetoothFirstChar": "Primeiro caractere",
+  "settingsBluetoothMiddleChar": "Caractere do meio",
+  "settingsBluetoothLastChar": "Último caractere",
 
   "settingsPickColor": "Selecione uma cor",
   "settingsUpColor": "Cor de cima",
@@ -94,6 +100,7 @@
   "messageInvalidFilling": "Preenchimento inválido, altere as cores",
   "messageNotFindSolution": "Não foi possível encontrar uma solução",
   "messageCubeSolved": "O cubo já está resolvido",
+  "messageBluetoothError": "Erro ao enviar dados por bluetooth",
   "messageUnexpectedError": "Ocorreu um erro inesperado",
   "messageSolve": "Solução de {moves} movimentos encontrada em {time} segundos"
 }

@@ -67,12 +67,12 @@ class _RubikDrawer extends State<RubikDrawer> {
             child: Image.asset('assets/images/logo.png'),
           ),
           const SizedBox(height: 8),
-          Text(
-            locale.appTitle,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              locale.appTitle,
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
         ],

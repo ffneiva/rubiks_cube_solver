@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cuber/cuber.dart' as cuber;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_controller.dart';
@@ -102,10 +103,33 @@ class RubikCubeController with ChangeNotifier {
         'moves': moves,
       });
 
+      if (_settingsController.blueCharacteristic != null) {
+        try {
+          _settingsController.blueCharacteristic!.write(getBlueSolution(solve));
+        } catch (e) {
+          return {'error': locale.messageBluetoothError};
+        }
+      }
+
       return {'solve': solve, 'time': time.substring(6, 11), 'moves': moves};
     } catch (e) {
       return {'error': locale.messageNotFindSolution};
     }
+  }
+
+  void rotate(int face, {bool clockwise = true}) {
+    List<Color> previousColors = List.from(_faceColors[face]);
+    List<int> index = _getIndices();
+
+    if (!clockwise) {
+      index = index.reversed.toList();
+    }
+
+    for (int i = 0; i < pow(sides, 2); i++) {
+      _faceColors[face][i] = previousColors[index[i]];
+    }
+
+    notifyListeners();
   }
 
   void notation2colors(String notation) {
@@ -139,6 +163,13 @@ class RubikCubeController with ChangeNotifier {
         _getPart(notation, 1) +
         _getPart(notation, 4);
     return notation;
+  }
+
+  List<int> getBlueSolution(String solve) {
+    String solution = _settingsController.blueCharOptions[0] +
+        solve.replaceAll(' ', _settingsController.blueCharOptions[1]) +
+        _settingsController.blueCharOptions[2];
+    return solution.codeUnits;
   }
 
   String _getFaceNotation(Color color) {
@@ -184,5 +215,18 @@ class RubikCubeController with ChangeNotifier {
     return part == 0
         ? string.substring(0, s)
         : string.substring(part * s, (part + 1) * s);
+  }
+
+  List<int> _getIndices() {
+    List<int> indices = [];
+    for (int i = 0; i < pow(sides, 2); i++) {
+      if (sides.isEven || (i != (pow(sides, 2) ~/ 2))) {
+        indices.add((_sides - 1 - i) * _sides +
+            (i ~/ _sides) * (1 + pow(_sides, 2) as int));
+      } else {
+        indices.add(i);
+      }
+    }
+    return indices;
   }
 }
