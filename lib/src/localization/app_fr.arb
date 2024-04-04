@@ -20,6 +20,7 @@
   "aboutPage": "À propos",
 
   "generalSettings": "Paramètres généraux",
+  "bluetoothSettings": "Paramètres Bluetooth",
   "cubeSettings": "Paramètres du cube",
 
   "settingsTheme": "Thème",
@@ -32,6 +33,11 @@
   "settingsEnglish": "Anglais",
   "settingsSpanish": "Espagnol",
   "settingsFrench": "Français",
+
+  "settingsDeviceConnect": "Connecter l'appareil",
+  "settingsBluetoothFirstChar": "Premier Caractère",
+  "settingsBluetoothMiddleChar": "Caractère du Milieu",
+  "settingsBluetoothLastChar": "Dernier Caractère",
 
   "settingsPickColor": "Choisissez une couleur",
   "settingsUpColor": "Couleur du dessus",
@@ -50,6 +56,7 @@
   "projectionDown": "Projection du bas",
 
   "rubikCubeClearColors": "Effacer les couleurs",
+  "rubikCubeCropper": "Recadrer l'Image",  
 
   "historicErrorLoadingData": "Erreur lors du chargement des données",
   "historicNoData": "Aucune donnée stockée dans l'historique",
@@ -94,6 +101,7 @@
   "messageInvalidFilling": "Remplissage invalide, veuillez modifier les couleurs",
   "messageNotFindSolution": "Impossible de trouver une solution",
   "messageCubeSolved": "Le cube est déjà résolu",
+  "messageBluetoothError": "Erreur lors de l'envoi des données via Bluetooth",
   "messageUnexpectedError": "Une erreur inattendue s'est produite",
   "messageSolve": "Solution trouvée en {moves} mouvements en {time} secondes"
 }

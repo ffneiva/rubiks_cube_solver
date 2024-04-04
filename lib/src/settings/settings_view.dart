@@ -342,7 +342,6 @@ class _SettingsView extends State<SettingsView> {
       await Future.delayed(const Duration(seconds: 10));
       FlutterBluePlus.stopScan();
     } catch (e) {}
-    print(devices);
   }
 
   Future<void> connectToDevice(BluetoothDevice? device) async {

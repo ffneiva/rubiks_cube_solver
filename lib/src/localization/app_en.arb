@@ -20,6 +20,7 @@
   "aboutPage": "About",
 
   "generalSettings": "General Settings",
+  "bluetoothSettings": "Bluetooth Settings",
   "cubeSettings": "Cube Settings",
 
   "settingsTheme": "Theme",
@@ -32,6 +33,11 @@
   "settingsEnglish": "English",
   "settingsSpanish": "Spanish",
   "settingsFrench": "French",
+
+  "settingsDeviceConnect": "Connect Device",
+  "settingsBluetoothFirstChar": "First Character",
+  "settingsBluetoothMiddleChar": "Middle Character",
+  "settingsBluetoothLastChar": "Last Character",
 
   "settingsPickColor": "Pick a color",
   "settingsUpColor": "Top color",
@@ -50,6 +56,7 @@
   "projectionDown": "Bottom side projection",
 
   "rubikCubeClearColors": "Clear colors",
+  "rubikCubeCropper": "Crop Image",
 
   "historicErrorLoadingData": "Error loading data",
   "historicNoData": "No data stored in history",
@@ -94,6 +101,7 @@
   "messageInvalidFilling": "Invalid filling, change the colors",
   "messageNotFindSolution": "Could not find a solution",
   "messageCubeSolved": "The cube is already solved",
+  "messageBluetoothError": "Error while sending data via Bluetooth",
   "messageUnexpectedError": "An unexpected error occurred",
   "messageSolve": "Solution of {moves} moves found in {time} seconds"
 }

@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
 import 'package:cuber/cuber.dart' as cuber;
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_service.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
@@ -64,6 +69,99 @@ class RubikCubeController with ChangeNotifier {
     notifyListeners();
 
     await _rubikCubeService.updateColors(_faceColors);
+  }
+
+  Future<void> takePhoto(AppLocalizations locale, int face) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final List<Color> colors = _settingsController.colors;
+
+    if (pickedFile != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [CropAspectRatioPreset.square],
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: locale.rubikCubeCropper,
+            toolbarColor: Colors.teal,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(title: locale.rubikCubeCropper),
+        ],
+      );
+
+      if (croppedFile != null) {
+        final paletteGenerator = await PaletteGenerator.fromImageProvider(
+          FileImage(File(croppedFile.path)),
+        );
+
+        if (paletteGenerator.colors.isNotEmpty) {
+          final List<Color> averageColors = [];
+          final File image = File(croppedFile.path);
+          final bytes = await image.readAsBytes();
+          final codec = await instantiateImageCodec(bytes);
+          final frameInfo = await codec.getNextFrame();
+
+          final imageWidth = frameInfo.image.width;
+          final imageHeight = frameInfo.image.height;
+
+          final double squareSize = min(imageWidth, imageHeight) / _sides;
+
+          for (int i = 0; i < _sides; i++) {
+            for (int j = 0; j < _sides; j++) {
+              final int x = (j * squareSize).toInt();
+              final int y = (i * squareSize).toInt();
+              final int halfSize = squareSize ~/ 2;
+              final int centerX = x + halfSize;
+              final int centerY = y + halfSize;
+              final ByteData? byteData = await frameInfo.image.toByteData();
+              if (byteData != null) {
+                final Uint8List uint8List = byteData.buffer.asUint8List();
+                const int bytesPerPixel = 4;
+                final int stride = bytesPerPixel * imageWidth;
+                final int pixelIndex =
+                    centerY * stride + centerX * bytesPerPixel;
+
+                final int red = uint8List[pixelIndex];
+                final int green = uint8List[pixelIndex + 1];
+                final int blue = uint8List[pixelIndex + 2];
+                final double alpha = uint8List[pixelIndex + 3] / 255.0;
+
+                averageColors.add(Color.fromRGBO(red, green, blue, alpha));
+              }
+            }
+          }
+
+          final List<Color> closestColors = [];
+
+          for (final color in averageColors) {
+            double minDistance = double.infinity;
+            Color closestColor = colors.first;
+
+            for (final candidateColor in colors) {
+              final distance = _colorDistance(color, candidateColor);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestColor = candidateColor;
+              }
+            }
+
+            closestColors.add(closestColor);
+          }
+
+          for (int i = 0; i < closestColors.length; i++) {
+            if (sides.isEven || (i != (pow(sides, 2) ~/ 2))) {
+              _faceColors[face][i] = closestColors[i];
+            }
+          }
+        }
+      }
+    }
+
+    notifyListeners();
   }
 
   Future<Map<String, String>> solve(AppLocalizations locale) async {
@@ -228,5 +326,13 @@ class RubikCubeController with ChangeNotifier {
       }
     }
     return indices;
+  }
+
+  double _colorDistance(Color c1, Color c2) {
+    return sqrt(
+      pow(c1.red - c2.red, 2) +
+          pow(c1.green - c2.green, 2) +
+          pow(c1.blue - c2.blue, 2),
+    );
   }
 }

@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_face.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
@@ -74,6 +72,8 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
 
   Widget _rubikCubeFace(
       BuildContext context, String title, Color color, int face) {
+    AppLocalizations locale = AppLocalizations.of(context)!;
+
     List<Widget> stickers = [];
     for (int i = 0; i < pow(widget.rubikCubeController.sides, 2); i++) {
       stickers.add(_sticker(widget.rubikCubeController.faceColors[face][i]));
@@ -90,7 +90,10 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () => _takePhoto(face),
+              onTap: () async {
+                await widget.rubikCubeController.takePhoto(locale, face);
+                setState(() {});
+              },
               child: const Icon(Icons.camera_alt_rounded),
             ),
             InkWell(
@@ -141,16 +144,6 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
         color: color,
       ),
     );
-  }
-
-  Future<void> _takePhoto(int face) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      await imageFile.delete();
-    }
   }
 
   void _onClickCubeFace(BuildContext context, String title, int face) {
