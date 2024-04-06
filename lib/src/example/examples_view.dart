@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/example/examples_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_view.dart';
@@ -46,6 +47,12 @@ class _ExampleView extends State<ExampleView> {
                     MaterialPageRoute(
                         builder: (context) => RubikCubeView(solution: example)),
                   ),
+                  onLongPress: () {
+                    Clipboard.setData(ClipboardData(text: example['alg']));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(locale.snackBarSolutionCopied)),
+                    );
+                  },
                   leading: Text('(${index + 1})'),
                   title: Text(
                     example['name']!,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_entire_projection.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
@@ -21,10 +23,12 @@ class RubikCubeView extends StatefulWidget {
 
 class _RubikCubeView extends State<RubikCubeView> {
   final RubikCubeController rubikCubeController = RubikCubeController();
+  late bool entireProjection;
 
   @override
   void initState() {
     super.initState();
+    entireProjection = true;
     if (widget.solution != null) {
       rubikCubeController.notation2colors(widget.solution!['scramble']);
       setState(() {});
@@ -48,21 +52,31 @@ class _RubikCubeView extends State<RubikCubeView> {
                 Icons.delete,
                 rubikCubeController.clearColors,
               ),
+              _popupItem(
+                entireProjection
+                    ? locale.rubikCubeFaces
+                    : locale.rubikCubeProjection,
+                entireProjection
+                    ? Icons.zoom_out_map_outlined
+                    : Icons.zoom_in_map_outlined,
+                () {
+                  entireProjection = !entireProjection;
+                  setState(() {});
+                },
+              ),
             ];
           },
         ),
       ],
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  RubikCubeProjection(rubikCubeController: rubikCubeController),
-                ],
-              ),
+              child: entireProjection
+                  ? RubikCubeEntireProjection(
+                      rubikCubeController: rubikCubeController)
+                  : RubikCubeProjection(
+                      rubikCubeController: rubikCubeController),
             ),
           ),
           GestureDetector(
@@ -150,9 +164,17 @@ class _RubikCubeView extends State<RubikCubeView> {
             title,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          content: Text(
-            message['solve']!,
-            style: const TextStyle(fontSize: 16),
+          content: GestureDetector(
+            onLongPress: () {
+              Clipboard.setData(ClipboardData(text: message['solve']!));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(locale.snackBarSolutionCopied)),
+              );
+            },
+            child: Text(
+              message['solve']!,
+              style: const TextStyle(fontSize: 16),
+            ),
           ),
           actions: <Widget>[
             TextButton(

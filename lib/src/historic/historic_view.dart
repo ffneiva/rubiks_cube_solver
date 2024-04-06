@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/historic/historic_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_view.dart';
@@ -74,6 +75,12 @@ class _HistoricView extends State<HistoricView> {
                         builder: (context) =>
                             RubikCubeView(solution: solution)),
                   ),
+                  onLongPress: () {
+                    Clipboard.setData(ClipboardData(text: solution['alg']));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(locale.snackBarSolutionCopied)),
+                    );
+                  },
                   leading: Text('(${index + 1})'),
                   title: Text(
                     solution['alg'],

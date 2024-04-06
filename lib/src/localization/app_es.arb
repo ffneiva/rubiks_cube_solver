@@ -57,6 +57,8 @@
 
   "rubikCubeClearColors": "Limpiar colores",
   "rubikCubeCropper": "Recortar Imagen",
+  "rubikCubeFaces": "Caras",
+  "rubikCubeProjection": "Proyección",
 
   "historicErrorLoadingData": "Error al cargar los datos",
   "historicNoData": "Ningún dato almacenado en el historial",
@@ -103,5 +105,7 @@
   "messageCubeSolved": "El cubo ya está resuelto",
   "messageBluetoothError": "Error al enviar datos por Bluetooth",
   "messageUnexpectedError": "Se produjo un error inesperado",
-  "messageSolve": "Solución de {moves} movimientos encontrada en {time} segundos"
+  "messageSolve": "Solución de {moves} movimientos encontrada en {time} segundos",
+
+  "snackBarSolutionCopied": "Solución copiada al portapapeles"
 }

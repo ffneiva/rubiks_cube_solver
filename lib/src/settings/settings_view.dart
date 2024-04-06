@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flag/flag_enum.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _SettingsView extends State<SettingsView> {
   void initState() {
     super.initState();
     selectedDevice = settingsController.blueDevice;
+    startBluetooth();
     requestBluetoothPermission();
   }
 
@@ -144,9 +146,16 @@ class _SettingsView extends State<SettingsView> {
           items: devices.map((device) {
             return DropdownMenuItem<BluetoothDevice>(
               value: device!,
-              child: Text(device.platformName != ''
-                  ? device.platformName
-                  : device.remoteId.toString()),
+              // child: Text('${device.name} - ${device.remoteId}'),
+              child: Text(device.advName != ''
+                  ? device.advName
+                  : device.platformName != ''
+                      ? device.platformName
+                      : device.localName != ''
+                          ? device.localName
+                          : (device.name != ''
+                              ? device.name
+                              : device.remoteId.toString())),
               onTap: () => deviceConnect(device),
             );
           }).toList(),
@@ -328,8 +337,7 @@ class _SettingsView extends State<SettingsView> {
 
   Future<void> scanDevices() async {
     try {
-      FlutterBluePlus.startScan(timeout: const Duration(seconds: 4));
-      FlutterBluePlus.scanResults.listen((results) {
+      var subscription = FlutterBluePlus.onScanResults.listen((results) {
         for (ScanResult result in results) {
           if (!devices.contains(result.device)) {
             setState(() {
@@ -338,9 +346,7 @@ class _SettingsView extends State<SettingsView> {
           }
         }
       });
-
-      await Future.delayed(const Duration(seconds: 10));
-      FlutterBluePlus.stopScan();
+      FlutterBluePlus.cancelWhenScanComplete(subscription);
     } catch (e) {}
   }
 
@@ -368,6 +374,16 @@ class _SettingsView extends State<SettingsView> {
     if (bluetoothStatus.isGranted && locationStatus.isGranted) {
       scanDevices();
     }
+  }
+
+  void startBluetooth() async {
+    var subscription = FlutterBluePlus.adapterState
+        .listen((BluetoothAdapterState state) async {
+      if (state == BluetoothAdapterState.off) {
+        await FlutterBluePlus.turnOn();
+      }
+    });
+    subscription.cancel();
   }
 
   void deviceConnect(device) async {

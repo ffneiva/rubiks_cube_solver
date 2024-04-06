@@ -1,30 +1,15 @@
-# rubiks_cube_solver
+# Rubik Cube Solver
 
-A new Flutter project.
+## Motivation
 
-## Getting Started
+This app is a Flutter implementation of a solver for the Rubik's Cube, developed as part of an extension project at the Federal University of Goiás (UFG). It uses the Kociemba algorithm to find a solution with a minimal number of moves, close to the God's number.
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+### Kociemba Algorithm
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The Kociemba algorithm reduces the cube to a state that requires only double-layer moves except in two opposite layers, transforming the cube into a 3x3x2, and then solves the cube with a maximum of 29 moves.
 
-## Assets
+### God's Number
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+The God's Number is a metric referring to the maximum number of moves needed to solve any configuration of the Rubik's Cube, regardless of how it's scrambled. Mathematical studies have shown that God's Number is 20.
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
-
-## Localization
-
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
-
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+## Usage

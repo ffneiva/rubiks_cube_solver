@@ -63,8 +63,10 @@ class _RubikScaffoldState extends State<RubikScaffold> {
   }
 
   bool _onWillPop(bool stopDefaultButtonEvent, RouteInfo info) {
+    BuildContext context = _scaffoldState.currentContext!;
     if (!Navigator.of(context).canPop()) {
       _showBackDialog(context);
+      return true;
     }
     return false;
   }

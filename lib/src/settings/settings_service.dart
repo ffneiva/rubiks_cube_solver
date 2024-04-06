@@ -18,6 +18,8 @@ class SettingsService {
 
   List<String> blueChars() => ['\$', ' ', '+'];
 
+  BluetoothCharacteristic? blueCharacteristic() => null;
+
   List<String> blueCharOptions() =>
       ['\$', ' ', '+', '-', '_', '.', '@', '#', '%', '&', '*', '(', ')'];
 

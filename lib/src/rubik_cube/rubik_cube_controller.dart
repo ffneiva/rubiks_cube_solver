@@ -73,8 +73,9 @@ class RubikCubeController with ChangeNotifier {
 
   Future<void> takePhoto(AppLocalizations locale, int face) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
     final List<Color> colors = _settingsController.colors;
+    const int matrixSize = 5;
 
     if (pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
@@ -108,29 +109,48 @@ class RubikCubeController with ChangeNotifier {
           final imageWidth = frameInfo.image.width;
           final imageHeight = frameInfo.image.height;
 
-          final double squareSize = min(imageWidth, imageHeight) / _sides;
+          final int squareSize = min(imageWidth, imageHeight) ~/ _sides;
 
           for (int i = 0; i < _sides; i++) {
             for (int j = 0; j < _sides; j++) {
-              final int x = (j * squareSize).toInt();
-              final int y = (i * squareSize).toInt();
-              final int halfSize = squareSize ~/ 2;
-              final int centerX = x + halfSize;
-              final int centerY = y + halfSize;
+              final int generalCenterX = j * squareSize + squareSize ~/ 2;
+              final int generalCenterY = i * squareSize + squareSize ~/ 2;
               final ByteData? byteData = await frameInfo.image.toByteData();
+
               if (byteData != null) {
                 final Uint8List uint8List = byteData.buffer.asUint8List();
                 const int bytesPerPixel = 4;
                 final int stride = bytesPerPixel * imageWidth;
-                final int pixelIndex =
-                    centerY * stride + centerX * bytesPerPixel;
+                const int offset = matrixSize ~/ 2;
+                final int quantityOfPixels = pow(matrixSize, 2).toInt();
+                int redAverage = 0;
+                int greenAverage = 0;
+                int blueAverage = 0;
+                double alphaAverage = 0.0;
 
-                final int red = uint8List[pixelIndex];
-                final int green = uint8List[pixelIndex + 1];
-                final int blue = uint8List[pixelIndex + 2];
-                final double alpha = uint8List[pixelIndex + 3] / 255.0;
-
-                averageColors.add(Color.fromRGBO(red, green, blue, alpha));
+                for (int offsetY = -offset; offsetY <= offset; offsetY++) {
+                  for (int offsetX = -offset; offsetX <= offset; offsetX++) {
+                    final int centerX = generalCenterX + offsetX;
+                    final int centerY = generalCenterY + offsetY;
+                    if (centerX >= 0 &&
+                        centerX < imageWidth &&
+                        centerY >= 0 &&
+                        centerY < imageHeight) {
+                      final int pixelIndex =
+                          centerY * stride + centerX * bytesPerPixel;
+                      redAverage += uint8List[pixelIndex];
+                      greenAverage += uint8List[pixelIndex + 1];
+                      blueAverage += uint8List[pixelIndex + 2];
+                      alphaAverage += uint8List[pixelIndex + 3] / 255.0;
+                    }
+                  }
+                }
+                averageColors.add(Color.fromRGBO(
+                  redAverage ~/ quantityOfPixels.clamp(0, 255),
+                  greenAverage ~/ quantityOfPixels.clamp(0, 255),
+                  blueAverage ~/ quantityOfPixels.clamp(0, 255),
+                  (alphaAverage / quantityOfPixels).clamp(0, 1),
+                ));
               }
             }
           }
@@ -308,7 +328,7 @@ class RubikCubeController with ChangeNotifier {
 
   String _getPart(String string, int part) {
     // Contagem de part inicia em 0
-    int s = pow(sides, 2) as int;
+    int s = pow(sides, 2).toInt();
 
     return part == 0
         ? string.substring(0, s)
@@ -320,7 +340,7 @@ class RubikCubeController with ChangeNotifier {
     for (int i = 0; i < pow(sides, 2); i++) {
       if (sides.isEven || (i != (pow(sides, 2) ~/ 2))) {
         indices.add((_sides - 1 - i) * _sides +
-            (i ~/ _sides) * (1 + pow(_sides, 2) as int));
+            (i ~/ _sides) * (1 + pow(_sides, 2).toInt()));
       } else {
         indices.add(i);
       }

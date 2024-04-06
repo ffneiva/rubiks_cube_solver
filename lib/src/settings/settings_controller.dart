@@ -46,6 +46,7 @@ class SettingsController with ChangeNotifier {
     _colors = _settingsService.colors();
     _blueDevice = _settingsService.bluetoothDevice();
     _blueChars = _settingsService.blueChars();
+    _blueCharacteristic = _settingsService.blueCharacteristic();
     _blueCharOptions = _settingsService.blueCharOptions();
     updateBlueCharOptions();
     notifyListeners();
