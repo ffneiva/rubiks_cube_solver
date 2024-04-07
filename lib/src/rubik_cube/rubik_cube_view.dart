@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_entire_projection.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
+import 'package:rubiks_cube_solver/src/solve/solve_view.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
 class RubikCubeView extends StatefulWidget {
@@ -176,7 +177,24 @@ class _RubikCubeView extends State<RubikCubeView> {
               style: const TextStyle(fontSize: 16),
             ),
           ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
           actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SolveView(solve: message['solve']!)),
+                );
+              },
+              child: Text(
+                locale.solveAccess,
+                style: const TextStyle(color: Colors.teal),
+              ),
+            ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(

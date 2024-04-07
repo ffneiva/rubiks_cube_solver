@@ -235,6 +235,14 @@ class RubikCubeController with ChangeNotifier {
     }
   }
 
+  Future<void> sendSolveViaBluettoth(AppLocalizations locale, solve) async {
+    if (_settingsController.blueCharacteristic != null) {
+      try {
+        _settingsController.blueCharacteristic!.write(getBlueSolution(solve));
+      } catch (e) {}
+    }
+  }
+
   void rotate(int face, {bool clockwise = true}) {
     List<Color> previousColors = List.from(_faceColors[face]);
     List<int> index = _getIndices();
