@@ -221,13 +221,7 @@ class RubikCubeController with ChangeNotifier {
         'moves': moves,
       });
 
-      if (_settingsController.blueCharacteristic != null) {
-        try {
-          _settingsController.blueCharacteristic!.write(getBlueSolution(solve));
-        } catch (e) {
-          return {'error': locale.messageBluetoothError};
-        }
-      }
+      sendSolveViaBluettoth(locale, solve);
 
       return {'solve': solve, 'time': time.substring(6, 11), 'moves': moves};
     } catch (e) {

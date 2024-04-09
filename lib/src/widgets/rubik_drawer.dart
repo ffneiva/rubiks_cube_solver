@@ -19,11 +19,10 @@ class RubikDrawer extends StatefulWidget {
   static const routeName = '/';
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikDrawer createState() => _RubikDrawer();
+  State<RubikDrawer> createState() => _RubikDrawerState();
 }
 
-class _RubikDrawer extends State<RubikDrawer> {
+class _RubikDrawerState extends State<RubikDrawer> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;

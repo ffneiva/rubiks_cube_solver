@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'settings_service.dart';
 
@@ -41,14 +42,17 @@ class SettingsController with ChangeNotifier {
 
   Future<void> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
-    _language = _settingsService.language();
+    _language = await _settingsService.language();
     _languageMode = await AppLocalizations.delegate.load(Locale(_language));
-    _colors = _settingsService.colors();
+    _colors = await _settingsService.colors();
+
+    _blueChars = await _settingsService.blueChars();
     _blueDevice = _settingsService.bluetoothDevice();
-    _blueChars = _settingsService.blueChars();
     _blueCharacteristic = _settingsService.blueCharacteristic();
     _blueCharOptions = _settingsService.blueCharOptions();
+
     updateBlueCharOptions();
+
     notifyListeners();
   }
 
@@ -72,7 +76,7 @@ class SettingsController with ChangeNotifier {
 
     notifyListeners();
 
-    await _settingsService.updateLanguageMode(_languageMode);
+    await _settingsService.updateLanguageMode(_language);
   }
 
   Future<void> updateColors(Color? newColor, int index) async {
@@ -126,5 +130,62 @@ class SettingsController with ChangeNotifier {
     _blueCharOptions = _settingsService.blueCharOptions();
     _blueCharOptions =
         _blueCharOptions.where((c) => !_blueChars.contains(c)).toList();
+  }
+
+  Future<void> scanDevices(List<BluetoothDevice> devices) async {
+    try {
+      var subscription = FlutterBluePlus.onScanResults.listen((results) {
+        for (ScanResult result in results) {
+          if (!devices.contains(result.device)) {
+            devices.add(result.device);
+          }
+        }
+      });
+      FlutterBluePlus.cancelWhenScanComplete(subscription);
+    } catch (e) {}
+  }
+
+  Future<void> connectToDevice(
+      BluetoothDevice? device, BluetoothDevice? selectedDevice) async {
+    if (device == null) {
+      return;
+    }
+    try {
+      if (selectedDevice != null) {
+        await selectedDevice.disconnect();
+      }
+
+      await device.connect();
+
+      selectedDevice = device;
+    } catch (e) {}
+  }
+
+  void requestBluetoothPermission(devices) async {
+    PermissionStatus bluetoothStatus = await Permission.bluetoothScan.request();
+    PermissionStatus locationStatus = await Permission.location.request();
+
+    if (bluetoothStatus.isGranted && locationStatus.isGranted) {
+      scanDevices(devices);
+    }
+  }
+
+  void startBluetooth() async {
+    var subscription = FlutterBluePlus.adapterState
+        .listen((BluetoothAdapterState state) async {
+      if (state == BluetoothAdapterState.off) {
+        await FlutterBluePlus.turnOn();
+      }
+    });
+    subscription.cancel();
+  }
+
+  Future<void> deviceConnect(
+      BluetoothDevice device, BluetoothDevice? selectedDevice) async {
+    try {
+      await device.connect();
+      await updateBlueDevice(device);
+      selectedDevice = device;
+    } catch (e) {}
   }
 }

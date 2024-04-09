@@ -1,116 +1,136 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_face_dialog.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
-import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 
 class RubikCubeFace extends StatefulWidget {
+  final RubikCubeController rubikCubeController;
+  final bool entireProject;
+  final String title;
   final int face;
 
   const RubikCubeFace({
     Key? key,
+    required this.rubikCubeController,
+    required this.title,
     required this.face,
+    required this.entireProject,
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikCubeFace createState() => _RubikCubeFace();
+  State<RubikCubeFace> createState() => _RubikCubeFaceState();
 }
 
-class _RubikCubeFace extends State<RubikCubeFace> {
-  final RubikCubeController rubikCubeController = RubikCubeController();
-  final SettingsController settingsController = SettingsController();
-  Color? selectedColor;
-
+class _RubikCubeFaceState extends State<RubikCubeFace> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> colorPalette = [];
-    for (int i = 0; i < 6; i++) {
-      colorPalette.add(_makeColorPallete(i));
-    }
-    return Column(
-      children: [
-        _rubikCubeFace(context, widget.face),
-        const SizedBox(height: 20),
-        GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 6,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-          children: colorPalette,
-        ),
-      ],
-    );
-  }
-
-  Widget _makeColorPallete(int index) {
-    Color color = settingsController.colors[index];
-    bool isSelected = selectedColor == color;
-    Color borderColor = isSelected
-        ? (color == Colors.teal ? Colors.teal.shade800 : Colors.teal)
-        : Colors.black;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (selectedColor == color) {
-            selectedColor = null;
-          } else {
-            selectedColor = color;
-          }
-        });
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.7) : color,
-          border: Border.all(
-            color: borderColor,
-            width: isSelected ? 3.0 : 1.5,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _rubikCubeFace(BuildContext context, int face) {
     List<Widget> stickers = [];
-    for (int i = 0; i < pow(rubikCubeController.sides, 2); i++) {
-      stickers.add(_sticker(rubikCubeController.faceColors[face][i], i));
+    for (int i = 0; i < pow(widget.rubikCubeController.sides, 2); i++) {
+      stickers
+          .add(_sticker(widget.rubikCubeController.faceColors[widget.face][i]));
     }
 
+    double faceSize = widget.entireProject
+        ? MediaQuery.of(context).size.width / 4 - 4 * 8
+        : MediaQuery.of(context).size.width / 2 - 2 * 16;
+
     return GestureDetector(
-      child: GridView.count(
-        crossAxisCount: rubikCubeController.sides,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: stickers,
+      onTap: () => _onClickCubeFace(context, widget.title, widget.face),
+      child: Container(
+        height: faceSize,
+        width: faceSize,
+        alignment: Alignment.center,
+        child: GridView.count(
+          crossAxisCount: widget.rubikCubeController.sides,
+          crossAxisSpacing: widget.entireProject ? 2 : 5,
+          mainAxisSpacing: widget.entireProject ? 2 : 5,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: stickers,
+        ),
       ),
     );
   }
 
-  Widget _sticker(Color color, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (selectedColor == null) {
-            rubikCubeController.updateSticker(
-                Colors.transparent, widget.face, index);
-          } else {
-            rubikCubeController.updateSticker(
-                selectedColor, widget.face, index);
-          }
-        });
-      },
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).hintColor),
-          borderRadius: BorderRadius.circular(5),
-          color: color,
-        ),
+  Widget _sticker(Color color) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).hintColor),
+        borderRadius: BorderRadius.circular(5),
+        color: color,
       ),
     );
+  }
+
+  Widget _faceToolbox(AppLocalizations locale, int face, Function setStatee) {
+    return SizedBox(
+      width: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () async {
+              await widget.rubikCubeController.takePhoto(locale, face);
+              setState(() {});
+              setStatee(() {});
+            },
+            child: const Icon(Icons.camera_alt_rounded),
+          ),
+          InkWell(
+            onTap: () {
+              widget.rubikCubeController.rotate(face);
+              setState(() {});
+              setStatee(() {});
+            },
+            child: const Icon(Icons.rotate_90_degrees_cw_outlined),
+          ),
+          InkWell(
+            onTap: () {
+              widget.rubikCubeController.rotate(face, clockwise: false);
+              setState(() {});
+              setStatee(() {});
+            },
+            child: const Icon(Icons.rotate_90_degrees_ccw_outlined),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onClickCubeFace(BuildContext context, String title, int face) {
+    AppLocalizations locale = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: Column(children: [
+              Text(title),
+              _faceToolbox(locale, face, setState),
+            ]),
+            content: SingleChildScrollView(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: RubikCubeFaceDialog(
+                  rubikCubeController: widget.rubikCubeController,
+                  face: face,
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  locale.confirmButton,
+                  style: const TextStyle(color: Colors.teal),
+                ),
+              ),
+            ],
+          );
+        });
+      },
+    ).then((value) => setState(() {}));
   }
 }

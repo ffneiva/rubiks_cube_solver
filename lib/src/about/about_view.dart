@@ -13,11 +13,10 @@ class AboutView extends StatefulWidget {
   static const routeName = '/about';
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AboutView createState() => _AboutView();
+  State<AboutView> createState() => _AboutViewState();
 }
 
-class _AboutView extends State<AboutView> {
+class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations locale = AppLocalizations.of(context)!;

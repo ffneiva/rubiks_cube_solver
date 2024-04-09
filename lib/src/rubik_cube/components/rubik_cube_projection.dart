@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_face.dart';
@@ -14,11 +13,10 @@ class RubikCubeProjection extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikCubeProjection createState() => _RubikCubeProjection();
+  State<RubikCubeProjection> createState() => _RubikCubeProjectionState();
 }
 
-class _RubikCubeProjection extends State<RubikCubeProjection> {
+class _RubikCubeProjectionState extends State<RubikCubeProjection> {
   final SettingsController settingsController = SettingsController();
 
   @override
@@ -74,11 +72,6 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
       BuildContext context, String title, Color color, int face) {
     AppLocalizations locale = AppLocalizations.of(context)!;
 
-    List<Widget> stickers = [];
-    for (int i = 0; i < pow(widget.rubikCubeController.sides, 2); i++) {
-      stickers.add(_sticker(widget.rubikCubeController.faceColors[face][i]));
-    }
-
     return Column(children: [
       FittedBox(
         fit: BoxFit.scaleDown,
@@ -115,61 +108,13 @@ class _RubikCubeProjection extends State<RubikCubeProjection> {
       ),
       Padding(
         padding: const EdgeInsets.only(top: 5),
-        child: GestureDetector(
-          onTap: () => _onClickCubeFace(context, title, face),
-          child: Container(
-            height: MediaQuery.of(context).size.width / 2 - 2 * 16,
-            width: MediaQuery.of(context).size.width / 2 - 2 * 16,
-            alignment: Alignment.center,
-            child: GridView.count(
-              crossAxisCount: widget.rubikCubeController.sides,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: stickers,
-            ),
-          ),
+        child: RubikCubeFace(
+          rubikCubeController: widget.rubikCubeController,
+          entireProject: false,
+          title: title,
+          face: face,
         ),
       ),
     ]);
-  }
-
-  Widget _sticker(Color color) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).hintColor),
-        borderRadius: BorderRadius.circular(5),
-        color: color,
-      ),
-    );
-  }
-
-  void _onClickCubeFace(BuildContext context, String title, int face) {
-    AppLocalizations locale = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: RubikCubeFace(face: face),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => {Navigator.of(context).pop()},
-              child: Text(
-                locale.confirmButton,
-                style: const TextStyle(color: Colors.teal),
-              ),
-            ),
-          ],
-        );
-      },
-    ).then((value) => setState(() {}));
   }
 }

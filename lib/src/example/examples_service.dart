@@ -38,6 +38,27 @@ class ExampleService {
         'moves': '11',
       },
       {
+        'name': locale.examplePllY,
+        'cube': cuber.Cube.from(
+            'UUUUUUUUULRRRRRRRRFFBFFFFFFDDDDDDDDDRBLLLLLLLBLFBBBBBB'),
+        'alg': "R U R' F2 L D' L' U L2 U' L2 D L2 U L2 U' F2",
+        'moves': '17',
+      },
+      {
+        'name': locale.examplePllH,
+        'cube': cuber.Cube.from(
+            'UUUUUUUUURLRRRRRRRFBFFFFFFFDDDDDDDDDLRLLLLLLLBFBBBBBBB'),
+        'alg': "U R2 F2 B2 L2 D' R2 F2 B2 L2",
+        'moves': '10',
+      },
+      {
+        'name': 'locale.exampleSune',
+        'cube': cuber.Cube.from(
+            'RUFUUUUULBBURRRRRRBFUFFFFFFDDDDDDDDDFRRLLLLLLLLUBBBBBB'),
+        'alg': "R U R2 U' R2 U R U2 F2 R2 F2 U2 F2 R2 F2 U",
+        'moves': '16',
+      },
+      {
         'name': locale.exampleCheckerboard,
         'cube': cuber.Cube.from(
             'UDUDUDUDURLRLRLRLRFBFBFBFBFDUDUDUDUDLRLRLRLRLBFBFBFBFB'),

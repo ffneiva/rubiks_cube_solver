@@ -93,6 +93,9 @@
   "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
   "examplePllJa": "PLL Ja",
   "examplePllJb": "PLL Jb",
+  "examplePllY": "PLL Y",
+  "examplePllH": "PLL H",
+  "exampleSune": "Sune",
 
   "aboutExtensionProject": "Projeto de Extensão",
   "aboutExtensionProjectParagraphs": "Este aplicativo é uma implementação em Flutter de um solver para o Cubo Mágico, desenvolvido como parte de um projeto de extensão na Universidade Federal de Goiás (UFG). Ele utiliza o algoritmo de Kociemba para encontrar uma solução com uma quantidade mínima de movimentos, próxima ao \"número de Deus\".",

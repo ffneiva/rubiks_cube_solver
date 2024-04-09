@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rubiks_cube_solver/src/settings/settings_controller.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
@@ -17,11 +16,10 @@ class SettingsView extends StatefulWidget {
   static const routeName = '/settings';
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SettingsView createState() => _SettingsView();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _SettingsView extends State<SettingsView> {
+class _SettingsViewState extends State<SettingsView> {
   final SettingsController settingsController = SettingsController();
   List<BluetoothDevice> devices = [];
   BluetoothDevice? selectedDevice;
@@ -30,8 +28,8 @@ class _SettingsView extends State<SettingsView> {
   void initState() {
     super.initState();
     selectedDevice = settingsController.blueDevice;
-    startBluetooth();
-    requestBluetoothPermission();
+    settingsController.startBluetooth();
+    settingsController.requestBluetoothPermission(devices);
   }
 
   @override
@@ -41,7 +39,10 @@ class _SettingsView extends State<SettingsView> {
     return RubikScaffold(
       title: locale.settingsTitle,
       body: RefreshIndicator(
-        onRefresh: scanDevices,
+        onRefresh: () async {
+          await settingsController.scanDevices(devices);
+          setState(() {});
+        },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
@@ -138,15 +139,14 @@ class _SettingsView extends State<SettingsView> {
         DropdownButton<BluetoothDevice>(
           value: selectedDevice,
           isExpanded: true,
-          onChanged: (d) {
-            connectToDevice(d);
-            settingsController.updateBlueDevice(d);
+          onChanged: (d) async {
+            await settingsController.connectToDevice(d, selectedDevice);
+            await settingsController.updateBlueDevice(d);
             setState(() {});
           },
           items: devices.map((device) {
             return DropdownMenuItem<BluetoothDevice>(
               value: device!,
-              // child: Text('${device.name} - ${device.remoteId}'),
               child: Text(device.advName != ''
                   ? device.advName
                   : device.platformName != ''
@@ -156,7 +156,8 @@ class _SettingsView extends State<SettingsView> {
                           : (device.name != ''
                               ? device.name
                               : device.remoteId.toString())),
-              onTap: () => deviceConnect(device),
+              onTap: () async => await settingsController.deviceConnect(
+                  device, selectedDevice),
             );
           }).toList(),
         ),
@@ -333,65 +334,5 @@ class _SettingsView extends State<SettingsView> {
         ],
       ),
     );
-  }
-
-  Future<void> scanDevices() async {
-    try {
-      var subscription = FlutterBluePlus.onScanResults.listen((results) {
-        for (ScanResult result in results) {
-          if (!devices.contains(result.device)) {
-            setState(() {
-              devices.add(result.device);
-            });
-          }
-        }
-      });
-      FlutterBluePlus.cancelWhenScanComplete(subscription);
-    } catch (e) {}
-  }
-
-  Future<void> connectToDevice(BluetoothDevice? device) async {
-    if (device == null) {
-      return;
-    }
-    try {
-      if (selectedDevice != null) {
-        await selectedDevice!.disconnect();
-      }
-
-      await device.connect();
-
-      setState(() {
-        selectedDevice = device;
-      });
-    } catch (e) {}
-  }
-
-  void requestBluetoothPermission() async {
-    PermissionStatus bluetoothStatus = await Permission.bluetoothScan.request();
-    PermissionStatus locationStatus = await Permission.location.request();
-
-    if (bluetoothStatus.isGranted && locationStatus.isGranted) {
-      scanDevices();
-    }
-  }
-
-  void startBluetooth() async {
-    var subscription = FlutterBluePlus.adapterState
-        .listen((BluetoothAdapterState state) async {
-      if (state == BluetoothAdapterState.off) {
-        await FlutterBluePlus.turnOn();
-      }
-    });
-    subscription.cancel();
-  }
-
-  void deviceConnect(device) async {
-    try {
-      await device.connect();
-      await settingsController.updateBlueDevice(device);
-      selectedDevice = device;
-      setState(() {});
-    } catch (e) {}
   }
 }

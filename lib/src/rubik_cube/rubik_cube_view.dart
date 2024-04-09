@@ -5,6 +5,7 @@ import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_entire_p
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/components/rubik_cube_projection.dart';
 import 'package:rubiks_cube_solver/src/solve/solve_view.dart';
+import 'package:rubiks_cube_solver/src/widgets/popup_item.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
 class RubikCubeView extends StatefulWidget {
@@ -18,11 +19,10 @@ class RubikCubeView extends StatefulWidget {
   static const routeName = '/';
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikCubeView createState() => _RubikCubeView();
+  State<RubikCubeView> createState() => _RubikCubeViewState();
 }
 
-class _RubikCubeView extends State<RubikCubeView> {
+class _RubikCubeViewState extends State<RubikCubeView> {
   final RubikCubeController rubikCubeController = RubikCubeController();
   late bool entireProjection;
 
@@ -48,22 +48,24 @@ class _RubikCubeView extends State<RubikCubeView> {
           offset: const Offset(0, 50),
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry>[
-              _popupItem(
+              popupItem(
+                context,
                 locale.rubikCubeClearColors,
                 Icons.delete,
-                rubikCubeController.clearColors,
+                () {
+                  rubikCubeController.clearColors;
+                  setState(() {});
+                },
               ),
-              _popupItem(
+              popupItem(
+                context,
                 entireProjection
                     ? locale.rubikCubeFaces
                     : locale.rubikCubeProjection,
                 entireProjection
                     ? Icons.zoom_out_map_outlined
                     : Icons.zoom_in_map_outlined,
-                () {
-                  entireProjection = !entireProjection;
-                  setState(() {});
-                },
+                () => setState(() => entireProjection = !entireProjection),
               ),
             ];
           },
@@ -101,21 +103,6 @@ class _RubikCubeView extends State<RubikCubeView> {
       ),
     );
   }
-
-  dynamic _popupItem(String title, IconData icon, VoidCallback onTap) =>
-      PopupMenuItem(
-        child: ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          dense: true,
-          contentPadding: const EdgeInsets.all(0),
-          onTap: () {
-            onTap();
-            Navigator.of(context).pop();
-            setState(() {});
-          },
-        ),
-      );
 
   void _solve(AppLocalizations locale) async {
     Map<String, String> message = await rubikCubeController.solve(locale);

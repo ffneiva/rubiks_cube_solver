@@ -93,6 +93,9 @@
   "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
   "examplePllJa": "PLL Ja",
   "examplePllJb": "PLL Jb",
+  "examplePllY": "PLL Y",
+  "examplePllH": "PLL H",
+  "exampleSune": "Sune",
 
   "aboutExtensionProject": "Proyecto de Extensión",
   "aboutExtensionProjectParagraphs": "Esta aplicación es una implementación en Flutter de un solucionador para el Cubo de Rubik, desarrollado como parte de un proyecto de extensión en la Universidad Federal de Goiás (UFG). Utiliza el algoritmo de Kociemba para encontrar una solución con la cantidad mínima de movimientos, cercanaal \"número de Dios\".",

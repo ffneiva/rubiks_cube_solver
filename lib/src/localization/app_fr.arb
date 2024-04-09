@@ -93,6 +93,9 @@
   "exampleFeliksZemdegs422": "WR 2018: Feliks Zemdegs 4.22s",
   "examplePllJa": "PLL Ja",
   "examplePllJb": "PLL Jb",
+  "examplePllY": "PLL Y",
+  "examplePllH": "PLL H",
+  "exampleSune": "Sune",
 
   "aboutExtensionProject": "Projet d'Extension",
   "aboutExtensionProjectParagraphs": "Cette application est une implémentation en Flutter d'un solveur pour le Rubik's Cube, développée dans le cadre d'un projet d'extension à l'Université Fédérale de Goiás (UFG). Il utilise l'algorithme de Kociemba pour trouver une solution avec un nombre minimal de mouvements, proche du \"nombre de Dieu\".",

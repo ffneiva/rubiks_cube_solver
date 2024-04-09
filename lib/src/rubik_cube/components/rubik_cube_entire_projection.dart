@@ -14,11 +14,11 @@ class RubikCubeEntireProjection extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikCubeEntireProjection createState() => _RubikCubeEntireProjection();
+  State<RubikCubeEntireProjection> createState() =>
+      _RubikCubeEntireProjectionState();
 }
 
-class _RubikCubeEntireProjection extends State<RubikCubeEntireProjection> {
+class _RubikCubeEntireProjectionState extends State<RubikCubeEntireProjection> {
   final SettingsController settingsController = SettingsController();
 
   @override
@@ -47,20 +47,20 @@ class _RubikCubeEntireProjection extends State<RubikCubeEntireProjection> {
       {
         'title': locale.projectionRight,
         'color': settingsController.colors[3],
-        'x': 1,
-        'y': 2,
+        'x': 2,
+        'y': 1,
       },
       {
         'title': locale.projectionBack,
         'color': settingsController.colors[4],
-        'x': 1,
-        'y': 3,
+        'x': 3,
+        'y': 1,
       },
       {
         'title': locale.projectionDown,
         'color': settingsController.colors[5],
-        'x': 2,
-        'y': 1,
+        'x': 1,
+        'y': 2,
       },
     ];
 
@@ -68,10 +68,14 @@ class _RubikCubeEntireProjection extends State<RubikCubeEntireProjection> {
     List<Widget> rubikCubeFaces = [];
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 4; j++) {
-        var item = data.where((d) => d['x'] == i && d['y'] == j);
+        var item = data.where((d) => d['y'] == i && d['x'] == j);
         if (item.isNotEmpty) {
-          rubikCubeFaces.add(_rubikCubeFace(
-              context, item.first['title'], item.first['color'], count));
+          rubikCubeFaces.add(RubikCubeFace(
+            rubikCubeController: widget.rubikCubeController,
+            entireProject: true,
+            title: item.first['title'],
+            face: count,
+          ));
           count++;
         } else {
           rubikCubeFaces.add(const SizedBox());
@@ -98,105 +102,5 @@ class _RubikCubeEntireProjection extends State<RubikCubeEntireProjection> {
         ),
       ),
     );
-  }
-
-  Widget _rubikCubeFace(
-      BuildContext context, String title, Color color, int face) {
-    List<Widget> stickers = [];
-    for (int i = 0; i < pow(widget.rubikCubeController.sides, 2); i++) {
-      stickers.add(_sticker(widget.rubikCubeController.faceColors[face][i]));
-    }
-
-    return GestureDetector(
-      onTap: () => _onClickCubeFace(context, title, face),
-      child: Container(
-        height: MediaQuery.of(context).size.width / 4 - 4 * 8,
-        width: MediaQuery.of(context).size.width / 4 - 4 * 8,
-        alignment: Alignment.center,
-        child: GridView.count(
-          crossAxisCount: widget.rubikCubeController.sides,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: stickers,
-        ),
-      ),
-    );
-  }
-
-  Widget _sticker(Color color) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).hintColor),
-        borderRadius: BorderRadius.circular(5),
-        color: color,
-      ),
-    );
-  }
-
-  void _onClickCubeFace(BuildContext context, String title, int face) {
-    AppLocalizations locale = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Column(children: [
-                Text(title),
-                SizedBox(
-                  width: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          await widget.rubikCubeController
-                              .takePhoto(locale, face);
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.camera_alt_rounded),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          widget.rubikCubeController.rotate(face);
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.rotate_90_degrees_cw_outlined),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          widget.rubikCubeController
-                              .rotate(face, clockwise: false);
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.rotate_90_degrees_ccw_outlined),
-                      ),
-                    ],
-                  ),
-                ),
-              ]),
-              content: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: RubikCubeFace(face: face),
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => {Navigator.of(context).pop()},
-                  child: Text(
-                    locale.confirmButton,
-                    style: const TextStyle(color: Colors.teal),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    ).then((value) => setState(() {}));
   }
 }

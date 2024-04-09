@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rubiks_cube_solver/src/rubik_cube/rubik_cube_controller.dart';
+import 'package:rubiks_cube_solver/src/widgets/popup_item.dart';
 import 'package:rubiks_cube_solver/src/widgets/rubik_scaffold.dart';
 
 class SolveView extends StatefulWidget {
@@ -14,11 +15,10 @@ class SolveView extends StatefulWidget {
   static const routeName = '/solve';
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SolveView createState() => _SolveView();
+  State<SolveView> createState() => _SolveViewState();
 }
 
-class _SolveView extends State<SolveView> {
+class _SolveViewState extends State<SolveView> {
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
@@ -44,18 +44,26 @@ class _SolveView extends State<SolveView> {
           offset: const Offset(0, 50),
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry>[
-              _popupItem(
+              popupItem(
+                context,
                 locale.solveReturnToTop,
                 Icons.straight_outlined,
-                () => scrollController.animateTo(0,
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.bounceInOut),
+                () {
+                  scrollController.animateTo(0,
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.bounceInOut);
+                  setState(() {});
+                },
               ),
-              _popupItem(
+              popupItem(
+                context,
                 locale.sendBluetooth,
                 Icons.bluetooth,
-                () => rubikCubeController.sendSolveViaBluettoth(
-                    locale, widget.solve),
+                () {
+                  rubikCubeController.sendSolveViaBluettoth(
+                      locale, widget.solve);
+                  setState(() {});
+                },
               ),
             ];
           },
@@ -131,19 +139,4 @@ class _SolveView extends State<SolveView> {
       ]),
     );
   }
-
-  dynamic _popupItem(String title, IconData icon, VoidCallback onTap) =>
-      PopupMenuItem(
-        child: ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          dense: true,
-          contentPadding: const EdgeInsets.all(0),
-          onTap: () {
-            onTap();
-            Navigator.of(context).pop();
-            setState(() {});
-          },
-        ),
-      );
 }

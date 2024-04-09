@@ -23,11 +23,10 @@ class RubikScaffold extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _RubikScaffoldState createState() => _RubikScaffoldState();
+  State<RubikScaffold> createState() => _RubikScaffoldStateState();
 }
 
-class _RubikScaffoldState extends State<RubikScaffold> {
+class _RubikScaffoldStateState extends State<RubikScaffold> {
   late final GlobalKey<ScaffoldState> _scaffoldState;
   final SettingsController settingsController = SettingsController();
   final RubikCubeController rubikCubeController = RubikCubeController();
