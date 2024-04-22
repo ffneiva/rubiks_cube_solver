@@ -52,7 +52,7 @@ class ExampleService {
         'moves': '10',
       },
       {
-        'name': 'locale.exampleSune',
+        'name': locale.exampleSune,
         'cube': cuber.Cube.from(
             'RUFUUUUULBBURRRRRRBFUFFFFFFDDDDDDDDDFRRLLLLLLLLUBBBBBB'),
         'alg': "R U R2 U' R2 U R U2 F2 R2 F2 U2 F2 R2 F2 U",

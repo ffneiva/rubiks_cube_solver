@@ -52,8 +52,8 @@ class _RubikCubeViewState extends State<RubikCubeView> {
                 context,
                 locale.rubikCubeClearColors,
                 Icons.delete,
-                () {
-                  rubikCubeController.clearColors;
+                () async {
+                  await rubikCubeController.clearColors();
                   setState(() {});
                 },
               ),

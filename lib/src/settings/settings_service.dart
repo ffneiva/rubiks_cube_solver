@@ -38,7 +38,23 @@ class SettingsService {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/colors.json');
     if (await file.exists()) {
-      userColors = jsonDecode(await file.readAsString());
+      List<dynamic> jsonList = jsonDecode(await file.readAsString());
+      List<List<String>> colorStrings = jsonList
+          .map((dynamic item) {
+            return (item as List)
+                .map((dynamic innerItem) => innerItem.toString())
+                .toList();
+          })
+          .cast<List<String>>()
+          .toList();
+      userColors = colorStrings
+          .map((c) => Color.fromARGB(
+                int.parse(c[0]),
+                int.parse(c[1]),
+                int.parse(c[2]),
+                int.parse(c[3]),
+              ))
+          .toList();
     }
 
     return userColors ?? defaultColors;
@@ -99,7 +115,19 @@ class SettingsService {
   Future<void> updateColors(List<Color> colors) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/colors.json');
-    await file.writeAsString(jsonEncode(colors));
+
+    List<List<String>> updatedColors = [];
+
+    for (int i = 0; i < colors.length; i++) {
+      updatedColors.add([
+        colors[i].alpha.toString(),
+        colors[i].red.toString(),
+        colors[i].green.toString(),
+        colors[i].blue.toString(),
+      ]);
+    }
+
+    await file.writeAsString(updatedColors.toString());
   }
 
   Future<void> updateBlueDevice(BluetoothDevice? blueDevice) async {}

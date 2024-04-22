@@ -47,33 +47,37 @@ Widget solutionListTile(BuildContext context, AppLocalizations locale,
       style: const TextStyle(fontWeight: FontWeight.bold),
     ),
     subtitle: Text(subtitle),
-    trailing: PopupMenuButton(itemBuilder: (BuildContext context) {
-      return <PopupMenuEntry>[
-        popupItem(
-          context,
-          locale.solvePage,
-          Icons.extension,
-          () {
-            Navigator.pop(context);
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SolveView(solve: solution['alg']!)),
-            );
-          },
-        ),
-        popupItem(
-          context,
-          locale.sendBluetooth,
-          Icons.bluetooth,
-          () {
-            Navigator.pop(context);
-            rubikCubeController.sendSolveViaBluettoth(locale, solution['alg']);
-          },
-        ),
-        ...?popupItems,
-      ];
-    }),
+    trailing: !(solution['alg'].length > 0)
+        ? null
+        : PopupMenuButton(itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry>[
+              popupItem(
+                context,
+                locale.solvePage,
+                Icons.extension,
+                () {
+                  Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SolveView(solve: solution['alg'])),
+                  );
+                },
+              ),
+              popupItem(
+                context,
+                locale.sendBluetooth,
+                Icons.bluetooth,
+                () {
+                  Navigator.pop(context);
+                  rubikCubeController.sendSolveViaBluettoth(
+                      locale, solution['alg']);
+                },
+              ),
+              ...?popupItems,
+            ];
+          }),
   );
 }
